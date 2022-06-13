@@ -1,0 +1,122 @@
+﻿<Window
+    x:Class="KMASafeKidGUI.AddBlockWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:KMASafeKidGUI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Install Window"
+    Width="740"
+    Height="420"
+    AllowsTransparency="True"
+    Background="Transparent"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Grid>
+        <Border
+            BorderBrush="Black"
+            BorderThickness="1"
+            CornerRadius="20"
+            MouseDown="Border_MouseDown">
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop Offset="0.0" Color="#7be9f6" />
+                    <GradientStop Offset="1" Color="#f083da" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <TextBox
+                    Margin="52,56,200,331"
+                    Padding="15,0,0,0"
+                    VerticalContentAlignment="Center"
+                    FontSize="14"
+                    Text="Nhập Web ở đây"
+                    TextWrapping="Wrap"
+                    UseLayoutRounding="True">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15" />
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <Grid>
+                    <TextBox
+                        Name="addAppTextBox"
+                        Margin="52,104,201,283"
+                        Padding="15,0,0,0"
+                        VerticalContentAlignment="Center"
+                        FontSize="14"
+                        Text="Chọn ứng dụng -&gt;"
+                        TextWrapping="Wrap"
+                        UseLayoutRounding="True">
+                        <TextBox.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15" />
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                    <Button
+                        Margin="509,106,202,285"
+                        Background="#FF35ADDA"
+                        BorderBrush="#FF0F0F0F"
+                        Click="btn_OpenFolder_click"
+                        Foreground="#FF0A0909">
+                        <iconPacks:PackIconMaterial Foreground="White" Kind="FolderOpen" />
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+        <Button
+            Margin="550,54,60,330"
+            BorderBrush="#FFAEA7A7"
+            Content="Thêm Web"
+            FontSize="14"
+            FontWeight="Bold"
+            Foreground="#FF080808" />
+        <Button
+            Margin="552,99,58,285"
+            BorderBrush="#FFD3CDCD"
+            Content="Thêm Ứng Dụng"
+            FontSize="14"
+            FontWeight="Bold"
+            Foreground="#FF080808" />
+        <TextBlock
+            Margin="43,21,496,361"
+            FontSize="22"
+            FontWeight="Bold"
+            Foreground="Black"
+            RenderTransformOrigin="0.472,-2.5"
+            Text="App/Web bị chặn" />
+        <Border
+            Height="235"
+            Margin="54,154,56,0"
+            VerticalAlignment="Top"
+            Background="White"
+            BorderBrush="White"
+            BorderThickness="1"
+            CornerRadius="15">
+            <DataGrid
+                Margin="20,9"
+                BorderBrush="White"
+                FontSize="14"
+                FontWeight="Bold"
+                Foreground="Black"
+                IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        MinWidth="400"
+                        Binding="{Binding AppName}"
+                        CanUserResize="False"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Header="App/Web đã thêm" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</Window>

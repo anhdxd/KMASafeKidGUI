@@ -1,0 +1,374 @@
+﻿<Window
+    x:Class="KMASafeKidGUI.ScreenApp"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fa="http://schemas.fontawesome.io/icons/"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:KMASafeKidGUI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:KMASafeKidGUI.Model"
+    Title="MainWindow"
+    Width="850"
+    Height="550"
+    AllowsTransparency="True"
+    Background="Transparent"
+    Foreground="Transparent"
+    ResizeMode="NoResize"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.DataContext>
+        <vm:AppDiary />
+    </Window.DataContext>
+    <Grid Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+
+
+        </Grid.RowDefinitions>
+        <Border
+            x:Name="MainBorder"
+            CornerRadius="20"
+            MouseDown="Window_MouseDown">
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop Offset="0.0" Color="#7be9f6" />
+                    <GradientStop Offset="1" Color="#FFE666CC" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid Margin="0,-11,0,11">
+                <Border
+                    Height="247"
+                    Margin="88,123,88,0"
+                    VerticalAlignment="Top"
+                    Background="White"
+                    BorderBrush="White"
+                    BorderThickness="1"
+                    CornerRadius="15" />
+                <DataGrid
+                    Margin="102,134,102,190"
+                    Background="#FFF1E8E8"
+                    BorderBrush="White"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="*"
+                            MinWidth="250"
+                            Binding="{Binding AppName}"
+                            Foreground="Black"
+                            Header="Phần Mềm/Web" />
+                        <DataGridTextColumn
+                            Width="*"
+                            MinWidth="100"
+                            Binding="{Binding TimeStart}"
+                            Header="Thời gian bắt đầu" />
+                        <DataGridTextColumn
+                            Width="*"
+                            MinWidth="100"
+                            Binding="{Binding TimeUsed}"
+                            Header="Thời gian sử dụng" />
+                    </DataGrid.Columns>
+                    <DataGrid.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20" />
+                        </Style>
+                    </DataGrid.Resources>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <Grid
+            Grid.Row="0"
+            Height="50"
+            Margin="2,65,10,435">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+
+            <TextBlock
+                Margin="65,8,273,2"
+                FontSize="22"
+                FontWeight="Bold"
+                Foreground="Black"
+                RenderTransformOrigin="0.472,-2.5"
+                Text="Nhật ký sử dụng phần mềm/Truy cập webSite" />
+            <Button
+                Width="30px"
+                Height="30px"
+                Margin="802,-49,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="ClickClose"
+                FontWeight="Normal">
+                <iconPacks:PackIconMaterial Foreground="White" Kind="Close" />
+
+            </Button>
+        </Grid>
+        <!-- <DataGrid x:Name="Data" Grid.Column="1" Margin="366,0,10,0">
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="Turquoise"></Setter>
+                        <Setter Property="FontWeight" Value="DemiBold"></Setter>
+                        <Setter Property="BorderThickness" Value="0,0,1,2"></Setter>
+                        <Setter Property="BorderBrush" Value="Black"/>
+                        <Setter Property="FontStretch" Value="UltraExpanded"/>
+                        <Setter Property="Padding" Value="10,0,0,0"/>
+                        <Setter Property="BorderBrush" Value="Blue"/>
+
+
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Ứng dụng cài đặt gần đây" FontWeight="Light" Width="400" Foreground="White" />
+
+                </DataGrid.Columns>
+            </DataGrid>-->
+
+
+
+
+        <TextBlock
+            Height="37"
+            Margin="61,0,324,142"
+            VerticalAlignment="Bottom"
+            FontSize="24"
+            FontWeight="Bold"
+            Foreground="Black"><Run Text="Chặn theo nội " /><Run Text="dung" /></TextBlock>
+        <TextBlock
+            Margin="130,423,525,107"
+            FontFamily="Segou UI"
+            FontSize="16"
+            FontWeight="Bold"
+            Foreground="Black"
+            Text="Chặn nội dung người lớn" />
+        <TextBlock
+            Height="26"
+            Margin="130,456,576,68"
+            FontSize="16"
+            FontWeight="Bold"
+            Foreground="Black"><Run Text="Chặn mạng xã hội" /></TextBlock>
+        <TextBlock
+            Margin="130,491,567,30"
+            FontSize="16"
+            FontWeight="Bold"
+            Foreground="Black"
+            RenderTransformOrigin="0.497,0"><Run Text="Chặn xem video" /></TextBlock>
+        <ToggleButton
+            x:Name="Toggle_btn1"
+            Width="36"
+            Height="19"
+            Margin="369,494,445,37"
+            Panel.ZIndex="1"
+            Checked="Video_Setting_Checked"
+            RenderTransformOrigin="7.139,-1.421">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="B1"
+                        Padding="1"
+                        Background="White"
+                        CornerRadius="10">
+                        <Border
+                            x:Name="B2"
+                            Width="{TemplateBinding Height}"
+                            HorizontalAlignment="Left"
+                            Background="CornflowerBlue"
+                            CornerRadius="20">
+                            <ContentPresenter />
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B2" Property="HorizontalAlignment" Value="Right" />
+                            <Setter TargetName="B1" Property="Background" Value="CornflowerBlue" />
+                            <Setter TargetName="B2" Property="Background" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </ToggleButton.Template>
+        </ToggleButton>
+        <ToggleButton
+            x:Name="Toggle_btn2"
+            Width="37"
+            Height="19"
+            Margin="369,422,444,109"
+            Panel.ZIndex="1"
+            Checked="Adult_Setting_Checked">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="B1"
+                        Padding="1"
+                        Background="White"
+                        CornerRadius="10">
+                        <Border
+                            x:Name="B2"
+                            Width="{TemplateBinding Height}"
+                            HorizontalAlignment="Left"
+                            Background="CornflowerBlue"
+                            CornerRadius="20">
+                            <ContentPresenter />
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B2" Property="HorizontalAlignment" Value="Right" />
+                            <Setter TargetName="B1" Property="Background" Value="CornflowerBlue" />
+                            <Setter TargetName="B2" Property="Background" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </ToggleButton.Template>
+        </ToggleButton>
+        <ToggleButton
+            x:Name="Toggle_btn"
+            Width="37"
+            Height="19"
+            Margin="0,459,444,72"
+            HorizontalAlignment="Right"
+            Panel.ZIndex="1"
+            Checked="Social_Setting_Checked"
+            RenderTransformOrigin="1.514,-3.053">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="B1"
+                        Padding="1"
+                        Background="White"
+                        CornerRadius="10">
+                        <Border
+                            x:Name="B2"
+                            Width="{TemplateBinding Height}"
+                            HorizontalAlignment="Left"
+                            Background="CornflowerBlue"
+                            CornerRadius="20">
+                            <ContentPresenter />
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B2" Property="HorizontalAlignment" Value="Right" />
+                            <Setter TargetName="B1" Property="Background" Value="CornflowerBlue" />
+                            <Setter TargetName="B2" Property="Background" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </ToggleButton.Template>
+        </ToggleButton>
+        <TextBlock
+            Margin="497,421,224,97"
+            FontSize="16"
+            FontWeight="Bold"
+            Foreground="Black"><Run Text="Chặn game" /></TextBlock>
+        <TextBlock
+            Margin="497,456,199,63"
+            FontSize="16"
+            FontWeight="Bold"
+            Foreground="Black"
+            Text="Tìm kiếm an toàn" />
+        <ToggleButton
+            x:Name="Toggle_btn3"
+            Width="37"
+            Height="19"
+            Margin="675,421,138,110"
+            Panel.ZIndex="1"
+            Checked="Game_Setting_Checked"
+            RenderTransformOrigin="2.973,1.789">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="B1"
+                        Padding="1"
+                        Background="White"
+                        CornerRadius="10">
+                        <Border
+                            x:Name="B2"
+                            Width="{TemplateBinding Height}"
+                            HorizontalAlignment="Left"
+                            Background="CornflowerBlue"
+                            CornerRadius="10">
+                            <ContentPresenter />
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B2" Property="HorizontalAlignment" Value="Right" />
+                            <Setter TargetName="B1" Property="Background" Value="CornflowerBlue" />
+                            <Setter TargetName="B2" Property="Background" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </ToggleButton.Template>
+        </ToggleButton>
+        <ToggleButton
+            x:Name="Toggle_btn4"
+            Width="37"
+            Height="19"
+            Margin="676,459,137,72"
+            Panel.ZIndex="1"
+            Checked="SafeSearch_Setting_Checked"
+            RenderTransformOrigin="4.865,-0.474">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="B1"
+                        Padding="1"
+                        Background="White"
+                        CornerRadius="10">
+                        <Border
+                            x:Name="B2"
+                            Width="{TemplateBinding Height}"
+                            HorizontalAlignment="Left"
+                            Background="CornflowerBlue"
+                            CornerRadius="20">
+                            <ContentPresenter />
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B2" Property="HorizontalAlignment" Value="Right" />
+                            <Setter TargetName="B1" Property="Background" Value="CornflowerBlue" />
+                            <Setter TargetName="B2" Property="Background" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </ToggleButton.Template>
+        </ToggleButton>
+        <Button
+            Width="35"
+            Height="35"
+            Margin="789,497,26,18"
+            Click="btn_AddBlock">
+            <iconPacks:PackIconMaterial Foreground="White" Kind="SettingsHelper" />
+        </Button>
+
+        <Button
+            Width="35"
+            Height="35"
+            Margin="735,497,80,18"
+            VerticalAlignment="Center"
+            Click="btn_InstallApp"
+            RenderTransformOrigin="1.257,0.457">
+            <iconPacks:PackIconMaterial Foreground="White" Kind="More" />
+        </Button>
+        <Image
+            Width="56"
+            Height="54"
+            Margin="15,15,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Source="/Image/logoKMA.png" />
+
+
+
+    </Grid>
+</Window>
