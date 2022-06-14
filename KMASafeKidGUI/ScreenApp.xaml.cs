@@ -3,41 +3,52 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
+using System.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using KMASafeGUI.Model;
+using System.Data.SQLite;
+using System.Timers;
 
-namespace KMASafeKidGUI
+namespace KMASafeGUI
 {
     /// <summary>
     /// Interaction logic for MainApp.xaml
     /// </summary>
     public partial class ScreenApp : Window
     {
-        //private readonly view viewModel;
+        private DataView dataView;// = new DataView();
+        private List<AppDiaryModel> diarys = new List<AppDiaryModel>();
+        private static SQLiteConnection sQLiteCon = new SQLiteConnection();
         public ScreenApp()
         {
             InitializeComponent();
-            List<Diary> diarys = new List<Diary>();
-            //diarys.Add(new Diary() { appName = "", timeStart = "John Doe", timeEnd = "" });
-            //diarys.Add(new Diary() { appName = "", timeStart = "Jane Doe", timeEnd = "" });
-            //diarys.Add(new Diary() { appName = "", timeStart = "Sammy Doe", timeEnd ="" });
+            dataView = new DataView();
+            //diarys.Add(new AppDiaryModel() { AppName = "asas", TimeStart = "John Doe", TimeUsed = "" });
+            //diarys.Add(new AppDiaryModel() { AppName = "asas", TimeStart = "Jane Doe", TimeUsed = "" });
 
-            //DataDiary.ItemsSource = diarys;
+
+            sQLiteCon.ConnectionString = "Data Source = " + @".\BlockDB.sqlite";
+            sQLiteCon.Open();
+            SQLiteCommand command = new SQLiteCommand(sQLiteCon);
+            command.CommandText = string.Format("SELECT * FROM tb_DiaryApp ");
+            SQLiteDataReader DataReader = command.ExecuteReader();
+            while (DataReader.Read())
+            {
+                diarys.Add(new AppDiaryModel() { AppName = DataReader["AppName"].ToString(), TimeStart = DataReader["TimeStart"].ToString(), TimeUsed = DataReader["TimeUsed"].ToString() });
+            }
+            dataView.ViewAppDiary = diarys;
+            DataContext = dataView;
         }
-        private void ClickClose(object sender, RoutedEventArgs e)
+
+        private void AutoupdateDiary(object source, ElapsedEventArgs e)
         {
-            this.Close();
-        }
 
-        private void Dataweb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            
         }
-        
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Point pos = e.GetPosition(this);
@@ -53,7 +64,11 @@ namespace KMASafeKidGUI
 
         private void Adult_Setting_Checked(object sender, RoutedEventArgs e)
         {
-            
+
+
+
+            //DataGridDiary.ItemsSource = diarys;
+
         }
 
         private void Social_Setting_Checked(object sender, RoutedEventArgs e)
@@ -76,23 +91,20 @@ namespace KMASafeKidGUI
 
         }
 
-        private void btn_InstallApp(object sender, RoutedEventArgs e)
+        private void Btn_InstallApp(object sender, RoutedEventArgs e)
         {
             InstallAppWindow installAppWindow = new InstallAppWindow { Owner = this };
             installAppWindow.ShowDialog();
         }
 
-        private void btn_AddBlock(object sender, RoutedEventArgs e)
+        private void Btn_AddBlock(object sender, RoutedEventArgs e)
         {
             AddBlockWindow addBlockWindow = new AddBlockWindow { Owner = this };
             addBlockWindow.ShowDialog();
         }
+        private void ClickClose(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
-    public class Diary
-    {
-        public string AppName { get; set; }
-        public string TimeStart { get; set; }
-        public string TimeEnd { get; set; }
-    }
-
 }

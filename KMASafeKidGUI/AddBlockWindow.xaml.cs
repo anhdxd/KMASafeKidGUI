@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace KMASafeKidGUI
+namespace KMASafeGUI
 {
     /// <summary>
     /// Interaction logic for AddBlockWindow.xaml
@@ -24,7 +24,7 @@ namespace KMASafeKidGUI
             InitializeComponent();
         }
 
-        private void btn_Close_Click(object sender, RoutedEventArgs e)
+        private void Btn_Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }

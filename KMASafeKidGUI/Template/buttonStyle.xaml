@@ -10,7 +10,7 @@
                     <Border
                         Background="{TemplateBinding Background}"
                         BorderBrush="White"
-                        BorderThickness="2"
+                        BorderThickness="3"
                         CornerRadius="20">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
 

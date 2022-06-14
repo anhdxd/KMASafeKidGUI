@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32413.511
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMASafeKidGUI", "KMASafeKidGUI\KMASafeKidGUI.csproj", "{134D5405-7F70-4D1F-BE6A-B17F44458F5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMASafeGUI", "KMASafeKidGUI\KMASafeGUI.csproj", "{134D5405-7F70-4D1F-BE6A-B17F44458F5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

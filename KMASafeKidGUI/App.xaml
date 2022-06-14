@@ -1,9 +1,9 @@
 ﻿<Application
-    x:Class="KMASafeKidGUI.App"
+    x:Class="KMASafeGUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:KMASafeKidGUI"
-    StartupUri="ScreenApp.xaml">
+    xmlns:local="clr-namespace:KMASafeGUI"
+    StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

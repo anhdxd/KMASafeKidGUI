@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KMASafeKidGUI.Model
+namespace KMASafeGUI.Model
 {
-    public class AppDiary
+
+    public class AppDiaryModel
     {
         public string AppName { get; set; }
         public string TimeStart { get; set; }

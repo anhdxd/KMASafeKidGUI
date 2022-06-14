@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace KMASafeKidGUI
+namespace KMASafeGUI
 {
     /// <summary>
     /// Interaction logic for InstallAppWindow.xaml

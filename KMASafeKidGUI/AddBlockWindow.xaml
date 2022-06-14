@@ -1,10 +1,10 @@
 ﻿<Window
-    x:Class="KMASafeKidGUI.AddBlockWindow"
+    x:Class="KMASafeGUI.AddBlockWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:local="clr-namespace:KMASafeKidGUI"
+    xmlns:local="clr-namespace:KMASafeGUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Install Window"
     Width="740"
@@ -16,6 +16,7 @@
     WindowStyle="None"
     mc:Ignorable="d">
     <Grid>
+
         <Border
             BorderBrush="Black"
             BorderThickness="1"
@@ -70,7 +71,25 @@
             </Grid>
         </Border>
         <Button
-            Margin="550,54,60,330"
+            Width="30px"
+            Height="30px"
+            Margin="693,13,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            BorderBrush="White"
+            BorderThickness="2"
+            Click="Btn_Close_Click"
+            FontWeight="Normal">
+            <iconPacks:PackIconMaterial Foreground="White" Kind="Close" />
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20" />
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button
+            Margin="552,54,58,330"
             BorderBrush="#FFAEA7A7"
             Content="Thêm Web"
             FontSize="14"
