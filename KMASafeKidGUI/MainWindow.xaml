@@ -70,14 +70,15 @@
                     Margin="82,48,82,108"
                     Source="/Image/logoKMA.png" />
                 <TextBlock
-                    Width="368"
+                    Width="388"
                     Height="40"
-                    Margin="99,221,65,46"
+                    Margin="83,221,61,46"
                     HorizontalAlignment="Center"
-                    FontSize="36"
+                    FontFamily="Leelawadee"
+                    FontSize="34"
                     FontWeight="Bold"
                     Foreground="Black"
-                    Text="KMA SAFE INTERNET" />
+                    Text="KMA INTERNET SAFETY" />
             </Grid>
 
             <Grid>

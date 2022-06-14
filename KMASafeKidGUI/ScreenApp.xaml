@@ -7,6 +7,7 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:KMASafeGUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:w3="http://www.w3.org/2000/svg"
     Title="ScreenWindow"
     Width="850"
     Height="550"
@@ -36,8 +37,8 @@
             MouseDown="Window_MouseDown">
             <Border.Background>
                 <LinearGradientBrush>
-                    <GradientStop Offset="0.0" Color="#7be9f6" />
-                    <GradientStop Offset="1" Color="#FFE666CC" />
+                    <GradientStop Offset="0.0" Color="#FF34D3C4" />
+                    <GradientStop Offset="1" Color="#FFEC53CD" />
                 </LinearGradientBrush>
             </Border.Background>
             <Grid Margin="0,-11,0,11">
@@ -53,16 +54,20 @@
                     x:Name="DataGridDiary"
                     Margin="93,107,93,190"
                     HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
                     AutoGenerateColumns="False"
-                    Background="#FFF1E8E8"
+                    Background="{x:Null}"
                     BorderBrush="{x:Null}"
-                    FontSize="14"
+                    BorderThickness="0"
+                    FontFamily="Arial"
+                    FontSize="16"
                     FontWeight="Bold"
                     Foreground="Black"
-                    HorizontalGridLinesBrush="#FF7C7979"
+                    GridLinesVisibility="Horizontal"
+                    HorizontalGridLinesBrush="#FFB9E6F0"
                     IsReadOnly="True"
                     ItemsSource="{Binding ViewAppDiary, UpdateSourceTrigger=PropertyChanged}"
-                    SelectionMode="Single"
                     VerticalGridLinesBrush="#FF807E7E">
                     <DataGrid.Columns>
                         <DataGridTextColumn
@@ -101,7 +106,7 @@
 
 
             <TextBlock
-                Margin="169,-42,169,52"
+                Margin="169,-20,169,30"
                 FontSize="22"
                 FontWeight="Bold"
                 Foreground="Black"
@@ -145,11 +150,25 @@
 
         <TextBlock
             Height="37"
-            Margin="61,0,324,142"
+            Margin="90,0,561,140"
             VerticalAlignment="Bottom"
             FontSize="24"
             FontWeight="Bold"
-            Foreground="Black"><Run Text="Chặn theo nội " /><Run Text="dung" /></TextBlock>
+            Foreground="Black"><Run Text="CÀI ĐẶT CHẶN" /></TextBlock>
+        <iconPacks:PackIconBootstrapIcons
+            Width="35"
+            Height="45"
+            Margin="48,366,0,0"
+            Foreground="White"
+            Kind="GearWideConnected"
+            RenderTransformOrigin="3.75,0.75" />
+        <iconPacks:PackIconBootstrapIcons
+            Width="17"
+            Height="19"
+            Margin="108,423,0,0"
+            Foreground="White"
+            Kind="PersonCircle"
+            RenderTransformOrigin="3.75,0.75" />
         <TextBlock
             Margin="130,423,525,107"
             FontFamily="Segou UI"
@@ -157,12 +176,26 @@
             FontWeight="Bold"
             Foreground="Black"
             Text="Chặn nội dung người lớn" />
+        <iconPacks:PackIconBootstrapIcons
+            Width="17"
+            Height="19"
+            Margin="108,458,0,0"
+            Foreground="White"
+            Kind="Facebook"
+            RenderTransformOrigin="3.75,0.75" />
         <TextBlock
             Height="26"
             Margin="130,456,576,68"
             FontSize="16"
             FontWeight="Bold"
             Foreground="Black"><Run Text="Chặn mạng xã hội" /></TextBlock>
+        <iconPacks:PackIconBootstrapIcons
+            Width="22"
+            Height="20"
+            Margin="104,493,0,0"
+            Foreground="White"
+            Kind="Eyeglasses"
+            RenderTransformOrigin="3.75,0.75" />
         <TextBlock
             Margin="130,491,567,30"
             FontSize="16"
@@ -170,13 +203,14 @@
             Foreground="Black"
             RenderTransformOrigin="0.497,0"><Run Text="Chặn xem video" /></TextBlock>
         <ToggleButton
-            x:Name="Toggle_btn1"
+            x:Name="Toggle_Inprivate"
             Width="36"
             Height="19"
             Margin="369,494,445,37"
             Panel.ZIndex="1"
             Checked="Video_Setting_Checked"
-            RenderTransformOrigin="7.139,-1.421">
+            RenderTransformOrigin="7.139,-1.421"
+            Unchecked="Video_Setting_Unchecked">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -204,12 +238,13 @@
             </ToggleButton.Template>
         </ToggleButton>
         <ToggleButton
-            x:Name="Toggle_btn2"
+            x:Name="Toggle_Adult"
             Width="37"
             Height="19"
             Margin="369,422,444,109"
             Panel.ZIndex="1"
-            Checked="Adult_Setting_Checked">
+            Checked="Adult_Setting_Checked"
+            Unchecked="Adult_Setting_Unchecked">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -237,14 +272,15 @@
             </ToggleButton.Template>
         </ToggleButton>
         <ToggleButton
-            x:Name="Toggle_btn"
+            x:Name="Toggle_Social"
             Width="37"
             Height="19"
             Margin="0,459,444,72"
             HorizontalAlignment="Right"
             Panel.ZIndex="1"
             Checked="Social_Setting_Checked"
-            RenderTransformOrigin="1.514,-3.053">
+            RenderTransformOrigin="1.514,-3.053"
+            Unchecked="Social_Setting_Unchecked">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -271,11 +307,25 @@
                 </ControlTemplate>
             </ToggleButton.Template>
         </ToggleButton>
+        <iconPacks:PackIconBootstrapIcons
+            Width="18"
+            Height="19"
+            Margin="474,425,0,0"
+            Foreground="White"
+            Kind="Joystick"
+            RenderTransformOrigin="3.75,0.75" />
         <TextBlock
             Margin="497,421,224,97"
             FontSize="16"
             FontWeight="Bold"
             Foreground="Black"><Run Text="Chặn game" /></TextBlock>
+        <iconPacks:PackIconBootstrapIcons
+            Width="17"
+            Height="19"
+            Margin="475,458,0,0"
+            Foreground="White"
+            Kind="Search"
+            RenderTransformOrigin="3.75,0.75" />
         <TextBlock
             Margin="497,456,199,63"
             FontSize="16"
@@ -283,13 +333,14 @@
             Foreground="Black"
             Text="Tìm kiếm an toàn" />
         <ToggleButton
-            x:Name="Toggle_btn3"
+            x:Name="Toggle_Game"
             Width="37"
             Height="19"
             Margin="675,421,138,110"
             Panel.ZIndex="1"
             Checked="Game_Setting_Checked"
-            RenderTransformOrigin="2.973,1.789">
+            RenderTransformOrigin="2.973,1.789"
+            Unchecked="Game_Setting_Unchecked">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -317,13 +368,14 @@
             </ToggleButton.Template>
         </ToggleButton>
         <ToggleButton
-            x:Name="Toggle_btn4"
+            x:Name="Toggle_SafeSearch"
             Width="37"
             Height="19"
             Margin="676,459,137,72"
             Panel.ZIndex="1"
             Checked="SafeSearch_Setting_Checked"
-            RenderTransformOrigin="4.865,-0.474">
+            RenderTransformOrigin="4.865,-0.474"
+            Unchecked="SafeSearch_Setting_Unchecked">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -350,32 +402,63 @@
                 </ControlTemplate>
             </ToggleButton.Template>
         </ToggleButton>
-        <Button
-            Width="35"
-            Height="35"
-            Margin="789,497,26,18"
-            Click="Btn_AddBlock">
-            <iconPacks:PackIconMaterial Foreground="White" Kind="SettingsHelper" />
+        <Button Margin="778,492,27,13" Click="Btn_AddBlock">
+            <iconPacks:PackIconBootstrapIcons
+                Width="25"
+                Height="25"
+                Margin="0,0,0,0"
+                Foreground="White"
+                Kind="DashCircleFill" />
         </Button>
 
         <Button
-            Width="35"
-            Height="35"
-            Margin="735,497,80,18"
+            Height="45"
+            Margin="716,492,89,13"
             VerticalAlignment="Center"
             Click="Btn_InstallApp"
             RenderTransformOrigin="1.257,0.457">
-            <iconPacks:PackIconMaterial Foreground="White" Kind="More" />
+            <iconPacks:BootstrapIcons
+                Width="25"
+                Height="25"
+                Kind="AppIndicator" />
+
         </Button>
-        <Image
+        <!--<Image
             Width="56"
             Height="54"
             Margin="15,15,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Source="/Image/logoKMA.png" />
+            Source="/Image/logoKMA.png" />-->
 
-
+        <iconPacks:PackIconBootstrapIcons
+            Width="68"
+            Height="51"
+            Margin="-2,7,0,0"
+            Foreground="White"
+            Kind="ShieldShaded" />
+        <TextBlock
+            Margin="59,6,591,515"
+            FontSize="20"
+            FontWeight="Bold"
+            Foreground="#FFE03E24"
+            RenderTransformOrigin="0.472,-2.5"
+            Text="KMA Internet Safety " />
+        <TextBlock
+            Margin="61,31,676,502"
+            FontSize="12"
+            FontWeight="Bold"
+            Foreground="White"
+            RenderTransformOrigin="0.472,-2.5"><Run Text="Product " /><Run Text=" " /><Run Text="by AT16" /></TextBlock>
+        <Label
+            Width="21"
+            Height="22"
+            Margin="101,27,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="©"
+            FontSize="5"
+            Foreground="White" />
 
     </Grid>
 </Window>

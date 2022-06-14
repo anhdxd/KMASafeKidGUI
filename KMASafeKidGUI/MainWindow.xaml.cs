@@ -35,7 +35,6 @@ namespace KMASafeGUI
             {
                 textCreatePass.Visibility = Visibility.Visible;
             }
-
         }
 
         private void ButtonLogin(object sender, RoutedEventArgs e)
