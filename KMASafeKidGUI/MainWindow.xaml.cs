@@ -28,6 +28,7 @@ namespace KMASafeGUI
         public MainWindow()
         {
             InitializeComponent();
+            InputLogin.Focus();
             textCreatePass.Visibility = Visibility.Hidden;
             var iniFile = new FileIniDataParser();
             IniData dataINI = iniFile.ReadFile(PATH_CONFIG_FILE);
@@ -41,11 +42,11 @@ namespace KMASafeGUI
         {
             var iniFile = new FileIniDataParser();
             IniData dataINI = iniFile.ReadFile(PATH_CONFIG_FILE);
-            if(dataINI["User"]["pwd"] == null || dataINI["User"]["pwd"] == "")
+            if (dataINI["User"]["pwd"] == null || dataINI["User"]["pwd"] == "")
             {
                 dataINI["User"]["pwd"] = InputLogin.Password;
                 iniFile.WriteFile(PATH_CONFIG_FILE, dataINI);
-            }    
+            }
             if (dataINI["User"]["pwd"] == InputLogin.Password)
             {
 
@@ -64,5 +65,33 @@ namespace KMASafeGUI
         {
             Close();
         }
+
+        private void Enter_Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                var iniFile = new FileIniDataParser();
+                IniData dataINI = iniFile.ReadFile(PATH_CONFIG_FILE);
+                if (dataINI["User"]["pwd"] == null || dataINI["User"]["pwd"] == "")
+                {
+                    dataINI["User"]["pwd"] = InputLogin.Password;
+                    iniFile.WriteFile(PATH_CONFIG_FILE, dataINI);
+                }
+                if (dataINI["User"]["pwd"] == InputLogin.Password)
+                {
+
+                    ScreenApp screenApp = new ScreenApp();
+                    screenApp.Show();
+                    Close();
+                }
+                else
+                {
+                    textCreatePass.Text = "Mật khẩu sai, nhập lại mật khẩu !";
+                    textCreatePass.Foreground = Brushes.Red;
+                    textCreatePass.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
     }
 }

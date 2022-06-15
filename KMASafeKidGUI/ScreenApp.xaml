@@ -37,7 +37,7 @@
             MouseDown="Window_MouseDown">
             <Border.Background>
                 <LinearGradientBrush>
-                    <GradientStop Offset="0.0" Color="#FF34D3C4" />
+                    <GradientStop Offset="0.0" Color="#FF43E8D8" />
                     <GradientStop Offset="1" Color="#FFEC53CD" />
                 </LinearGradientBrush>
             </Border.Background>
@@ -61,14 +61,18 @@
                     BorderBrush="{x:Null}"
                     BorderThickness="0"
                     FontFamily="Arial"
-                    FontSize="16"
-                    FontWeight="Bold"
+                    FontSize="18"
                     Foreground="Black"
                     GridLinesVisibility="Horizontal"
                     HorizontalGridLinesBrush="#FFB9E6F0"
                     IsReadOnly="True"
                     ItemsSource="{Binding ViewAppDiary, UpdateSourceTrigger=PropertyChanged}"
                     VerticalGridLinesBrush="#FF807E7E">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Width="*"
@@ -201,16 +205,15 @@
             FontSize="16"
             FontWeight="Bold"
             Foreground="Black"
-            RenderTransformOrigin="0.497,0"><Run Text="Chặn xem video" /></TextBlock>
+            RenderTransformOrigin="0.497,0"><Run Text="Chặn tab ẩn danh" /></TextBlock>
         <ToggleButton
             x:Name="Toggle_Inprivate"
             Width="36"
             Height="19"
             Margin="369,494,445,37"
             Panel.ZIndex="1"
-            Checked="Video_Setting_Checked"
-            RenderTransformOrigin="7.139,-1.421"
-            Unchecked="Video_Setting_Unchecked">
+            Click="Inprivate_Setting_Clicked"
+            RenderTransformOrigin="7.139,-1.421">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -243,8 +246,7 @@
             Height="19"
             Margin="369,422,444,109"
             Panel.ZIndex="1"
-            Checked="Adult_Setting_Checked"
-            Unchecked="Adult_Setting_Unchecked">
+            Click="Adult_Setting_Clicked">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -278,9 +280,8 @@
             Margin="0,459,444,72"
             HorizontalAlignment="Right"
             Panel.ZIndex="1"
-            Checked="Social_Setting_Checked"
-            RenderTransformOrigin="1.514,-3.053"
-            Unchecked="Social_Setting_Unchecked">
+            Click="Social_Setting_Clicked"
+            RenderTransformOrigin="1.514,-3.053">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -310,7 +311,7 @@
         <iconPacks:PackIconBootstrapIcons
             Width="18"
             Height="19"
-            Margin="474,425,0,0"
+            Margin="474,423,0,0"
             Foreground="White"
             Kind="Joystick"
             RenderTransformOrigin="3.75,0.75" />
@@ -338,9 +339,7 @@
             Height="19"
             Margin="675,421,138,110"
             Panel.ZIndex="1"
-            Checked="Game_Setting_Checked"
-            RenderTransformOrigin="2.973,1.789"
-            Unchecked="Game_Setting_Unchecked">
+            RenderTransformOrigin="2.973,1.789" Click="Game_Setting_Clicked">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -373,9 +372,7 @@
             Height="19"
             Margin="676,459,137,72"
             Panel.ZIndex="1"
-            Checked="SafeSearch_Setting_Checked"
-            RenderTransformOrigin="4.865,-0.474"
-            Unchecked="SafeSearch_Setting_Unchecked">
+            RenderTransformOrigin="4.865,-0.474" Click="SafeSearch_Setting_Clicked">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border

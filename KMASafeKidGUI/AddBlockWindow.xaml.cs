@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,9 +20,24 @@ namespace KMASafeGUI
     /// </summary>
     public partial class AddBlockWindow : Window
     {
+        public static EventWaitHandle signalWaitResult = new EventWaitHandle(false, EventResetMode.AutoReset);
+        private List<DataBlock> appBlock = new List<DataBlock>();
         public AddBlockWindow()
         {
             InitializeComponent();
+            tbInputBlockWeb.Focus();
+            SortedSet<string> ssUserApp =  AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
+            SortedSet<string> ssUserHost =  AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
+             // Chuy
+            foreach (var item in ssUserHost)
+            {
+                appBlock.Add(new DataBlock { Name = item});
+            }
+            foreach (var item in ssUserApp)
+            {
+                appBlock.Add(new DataBlock { Name = item });
+            }
+            dgBlockShow.ItemsSource = appBlock;
         }
 
         private void Btn_Close_Click(object sender, RoutedEventArgs e)
@@ -51,9 +67,83 @@ namespace KMASafeGUI
             // Load content of file in a TextBlock
             if (result == true)
             {
-                addAppTextBox.Text = openFileDlg.FileName;
+                tbInputAppBlock.Text = openFileDlg.FileName;
                 //addAppTextBox.Text = System.IO.File.ReadAllText(openFileDlg.FileName);
             }
         }
+
+        private void btn_AddWeb_Click(object sender, RoutedEventArgs e)
+        {
+            PipeClient.FlagSend = (int)PipeClient.fText.AddHostToDB;
+            PipeClient.StringSend = tbInputBlockWeb.Text;
+            PipeClient.signal.Set();
+            signalWaitResult.WaitOne(700);
+            if (PipeClient.bResult)
+            {
+                SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
+                SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
+                // Chuy
+                appBlock.Clear();
+                foreach (var item in ssUserHost)
+                {
+                    appBlock.Add(new DataBlock { Name = item });
+                }
+                foreach (var item in ssUserApp)
+                {
+                    appBlock.Add(new DataBlock { Name = item });
+                }
+                dgBlockShow.ItemsSource = appBlock;
+                //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
+                dgBlockShow.Items.Refresh();
+                labelResult.Content = "Thêm thành công !";
+                labelResult.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                //labelResult.Content = "Thêm thất bại !";
+                MessageBox.Show("Thêm thất bại !");
+                labelResult.Visibility = Visibility.Hidden;
+            }    
+        }
+
+        private void btn_AddApp_Click(object sender, RoutedEventArgs e)
+        {
+            PipeClient.FlagSend = (int)PipeClient.fText.AddAppToDB;
+            PipeClient.StringSend = tbInputAppBlock.Text;
+            PipeClient.signal.Set();
+
+            signalWaitResult.WaitOne(700);
+            if (PipeClient.bResult)
+            {
+                SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
+                SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
+                // Chuy
+                appBlock.Clear();
+                foreach (var item in ssUserHost)
+                {
+                    appBlock.Add(new DataBlock { Name = item });
+                }
+                foreach (var item in ssUserApp)
+                {
+                    appBlock.Add(new DataBlock { Name = item });
+                }
+                dgBlockShow.ItemsSource = appBlock;
+                //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
+                dgBlockShow.Items.Refresh();
+                labelResult.Content = "Thêm thành công !";
+                labelResult.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("Thêm thất bại !");
+                labelResult.Visibility = Visibility.Hidden;
+            }
+        }
+        
     }
+    public class DataBlock
+    {
+        public string Name { get; set; }
+    }
+
 }

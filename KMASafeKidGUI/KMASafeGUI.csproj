@@ -58,6 +58,7 @@
     <Compile Include="AddBlockWindow.xaml.cs">
       <DependentUpon>AddBlockWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AES.cs" />
     <Compile Include="DataView.cs" />
     <Compile Include="InstallAppWindow.xaml.cs">
       <DependentUpon>InstallAppWindow.xaml</DependentUpon>

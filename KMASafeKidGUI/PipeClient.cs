@@ -5,29 +5,98 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.IO.Pipes;
-namespace KMASafeKidGUI
+using System.Threading;
+
+namespace KMASafeGUI
 {
     class PipeClient
     {
-        private enum fText
+        public static int FlagSend { get; set; }
+        public static bool bResult;
+        public static string StringSend { get; set; }
+        public static EventWaitHandle signal = new EventWaitHandle(false, EventResetMode.AutoReset);
+        private static readonly string PipeName = "KMASKPipe";
+        public static NamedPipeClientStream pipeClient;
+        public enum fText
         {
-            CloseApp = 0,
-            WriteReg,
-            GetUser,
+            AddHostToDB = 0,
+            AddAppToDB,
+            DeleteHostDB,
+            DeleteAppDB,
+            ChangeSetting,
+            GetAppInstall,
         }
-        static String PipeName = "KMASKPipe";
-        public static bool SendSettingChange()
+
+        public static void OninitPipes()
         {
-            //string sSend;
-            //var pipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
-            //pipeClient.Connect();
+            Thread threadSetting = new Thread(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        pipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.InOut, PipeOptions.WriteThrough | PipeOptions.Asynchronous);
+                        pipeClient.Connect();
 
-            //var ss = new StreamString(pipeClient);
+                        SendSettingChange();
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+            });
+            threadSetting.IsBackground = true;
+            threadSetting.Start();
+        }
+        public static void SendSettingChange()
+        {
+            while (true)
+            {
+                signal.WaitOne();
 
-            //sSend = String.Format("{{'flag':{0}, 'idproc':{1}}}", ((int)fText.CloseApp), idProc);//"{'flag':" + fText.CloseApp + ",'idproc':" + idProc +"}";
+                string sSend;
+                StreamString ss = new StreamString(pipeClient);
+                switch (FlagSend)
+                {
+                    case (int)fText.AddHostToDB:
+                        sSend = string.Format("{{'flag':{0},'sDomain':'{1}'}}", (int)fText.AddHostToDB, StringSend);
+                        ss.WriteString(sSend);
+                        Thread.Sleep(100);
+                        if (pipeClient.CanRead)
+                            bResult = bool.Parse(ss.ReadString());
+                        else bResult = false;
+                        AddBlockWindow.signalWaitResult.Set();
+                        break;
+
+                    case (int)fText.AddAppToDB:
+                        sSend = string.Format("{{'flag':{0},'sPath':'{1}'}}", (int)fText.AddAppToDB, StringSend.Replace("\\","\\\\"));
+                        ss.WriteString(sSend);
+                        Thread.Sleep(100);
+                        if (pipeClient.CanRead)
+                            bResult = bool.Parse(ss.ReadString());
+                        else bResult = false;
+                        AddBlockWindow.signalWaitResult.Set();
+                        break;
+
+                    case (int)fText.DeleteHostDB:
+                        break;
+                    case (int)fText.DeleteAppDB:
+                        break;
+                    case (int)fText.ChangeSetting:
+                        sSend = string.Format("{{'flag':{0}}}", (int)fText.ChangeSetting);
+                        ss.WriteString(sSend);
+                        break;
+                    case (int)fText.GetAppInstall:
+                        break;
+                    default:
+                        break;
+                }
+                StringSend = "";
+            }
             //Console.WriteLine(sSend);
 
-            //ss.WriteString(sSend);
+
             //// Write Registry
             //sSend = String.Format("{{'flag':{0}, 'valueName':'{1}', 'value':'{2}'}}", ((int)fText.WriteReg), "Testlai", "deobiet");
             //Console.WriteLine(sSend);
@@ -38,7 +107,6 @@ namespace KMASafeKidGUI
 
             //Console.ReadKey();
             //pipeClient.Close();
-            return true;
         }
  
     }

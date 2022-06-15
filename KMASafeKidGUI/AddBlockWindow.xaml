@@ -15,6 +15,9 @@
     WindowStartupLocation="CenterOwner"
     WindowStyle="None"
     mc:Ignorable="d">
+    <Window.DataContext>
+        <local:DataBlock />
+    </Window.DataContext>
     <Grid>
 
         <Border
@@ -30,7 +33,8 @@
             </Border.Background>
             <Grid>
                 <TextBox
-                    Margin="52,56,200,331"
+                    Name="tbInputBlockWeb"
+                    Margin="53,54,199,328"
                     Padding="15,0,0,0"
                     VerticalContentAlignment="Center"
                     FontSize="14"
@@ -45,8 +49,8 @@
                 </TextBox>
                 <Grid>
                     <TextBox
-                        Name="addAppTextBox"
-                        Margin="52,104,201,283"
+                        Name="tbInputAppBlock"
+                        Margin="53,101,200,281"
                         Padding="15,0,0,0"
                         VerticalContentAlignment="Center"
                         FontSize="14"
@@ -91,6 +95,7 @@
         <Button
             Margin="552,54,58,330"
             BorderBrush="#FFAEA7A7"
+            Click="btn_AddWeb_Click"
             Content="Thêm Web"
             FontSize="14"
             FontWeight="Bold"
@@ -98,12 +103,13 @@
         <Button
             Margin="552,99,58,285"
             BorderBrush="#FFD3CDCD"
+            Click="btn_AddApp_Click"
             Content="Thêm Ứng Dụng"
             FontSize="14"
             FontWeight="Bold"
             Foreground="#FF080808" />
         <TextBlock
-            Margin="43,21,496,361"
+            Margin="43,19,496,363"
             FontSize="22"
             FontWeight="Bold"
             Foreground="Black"
@@ -118,17 +124,23 @@
             BorderThickness="1"
             CornerRadius="15">
             <DataGrid
+                Name="dgBlockShow"
                 Margin="20,9"
+                AutoGenerateColumns="False"
                 BorderBrush="White"
-                FontSize="14"
-                FontWeight="Bold"
+                FontSize="16"
                 Foreground="Black"
                 IsReadOnly="True">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Width="*"
                         MinWidth="400"
-                        Binding="{Binding AppName}"
+                        Binding="{Binding Name}"
                         CanUserResize="False"
                         FontSize="14"
                         FontWeight="Bold"
@@ -137,5 +149,17 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
+        <Label
+            Name="labelResult"
+            Width="221"
+            Height="38"
+            Margin="296,21,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="{x:Null}"
+            Content="Thêm thành công !"
+            FontSize="18"
+            Foreground="Red"
+            Visibility="Hidden" />
     </Grid>
 </Window>

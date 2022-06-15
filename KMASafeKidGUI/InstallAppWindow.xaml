@@ -15,11 +15,15 @@
     WindowStartupLocation="CenterOwner"
     WindowStyle="None"
     mc:Ignorable="d">
+    <Window.DataContext>
+        <local:DataAppInstall />
+    </Window.DataContext>
     <Grid>
         <Border
             BorderBrush="Black"
             BorderThickness="1"
-            CornerRadius="20" MouseDown="Border_MouseDown">
+            CornerRadius="20"
+            MouseDown="Border_MouseDown">
             <Border.Background>
                 <LinearGradientBrush>
                     <GradientStop Offset="0.0" Color="#7be9f6" />
@@ -61,12 +65,19 @@
             BorderThickness="1"
             CornerRadius="15">
             <DataGrid
+                Name="dgInstallApp"
                 Margin="20,9"
+                AutoGenerateColumns="False"
                 BorderBrush="White"
-                FontSize="14"
-                FontWeight="Bold"
+                FontFamily="Arial"
+                FontSize="16"
                 Foreground="Black"
                 IsReadOnly="True">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Width="*"
@@ -77,7 +88,7 @@
                     <DataGridTextColumn
                         Width="*"
                         MinWidth="100"
-                        Binding="{Binding TimeStart}"
+                        Binding="{Binding TimeInstall}"
                         Header="Thời gian cài đặt" />
                 </DataGrid.Columns>
             </DataGrid>
