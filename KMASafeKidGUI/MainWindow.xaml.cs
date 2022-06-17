@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,6 +93,14 @@ namespace KMASafeGUI
                 }
             }
         }
-
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var current_process = Process.GetCurrentProcess();
+            var other_process = Process.GetProcessesByName(current_process.ProcessName).FirstOrDefault(p => p.Id != current_process.Id);
+            if (other_process != null && other_process.MainWindowHandle != IntPtr.Zero)
+            {
+                current_process.Kill();
+            }
+        }
     }
 }
