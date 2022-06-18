@@ -123,31 +123,87 @@
             BorderBrush="White"
             BorderThickness="1"
             CornerRadius="15">
-            <DataGrid
-                Name="dgBlockShow"
-                Margin="20,9"
-                AutoGenerateColumns="False"
-                BorderBrush="White"
-                FontSize="16"
-                Foreground="Black"
-                IsReadOnly="True">
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                        <Setter Property="FontWeight" Value="Bold" />
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Width="*"
-                        MinWidth="400"
-                        Binding="{Binding Name}"
-                        CanUserResize="False"
-                        FontSize="14"
-                        FontWeight="Bold"
-                        Foreground="Black"
-                        Header="App/Web đã thêm" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <Grid>
+                <DataGrid
+                    Name="dgBlockShow"
+                    Width="300"
+                    Height="200"
+                    Margin="10,14,0,19"
+                    HorizontalAlignment="Left"
+                    AutoGenerateColumns="False"
+                    BorderBrush="White"
+                    BorderThickness="0"
+                    CanUserResizeRows="False"
+                    FontFamily="Arial"
+                    FontSize="16"
+                    Foreground="Black"
+                    GridLinesVisibility="Horizontal"
+                    HorizontalGridLinesBrush="#FFBFBEBE"
+                    HorizontalScrollBarVisibility="Disabled"
+                    IsReadOnly="True"
+                    MinColumnWidth="30"
+                    MinRowHeight="20"
+                    SelectionMode="Single"
+                    SelectionUnit="Cell"
+                    VerticalGridLinesBrush="#FFB4AEAE">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="*"
+                            MinWidth="290"
+                            Binding="{Binding WebName}"
+                            CanUserResize="False"
+                            FontSize="14"
+                            Foreground="Black"
+                            Header="Web đã thêm" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <DataGrid
+                    Name="dgAppShow"
+                    Width="300"
+                    Height="200"
+                    Margin="318,14,0,19"
+                    HorizontalAlignment="Left"
+                    AutoGenerateColumns="False"
+                    BorderBrush="White"
+                    BorderThickness="0"
+                    CanUserResizeRows="False"
+                    FontFamily="Arial"
+                    FontSize="16"
+                    Foreground="Black"
+                    GridLinesVisibility="Horizontal"
+                    HorizontalGridLinesBrush="#FFBFBEBE"
+                    HorizontalScrollBarVisibility="Disabled"
+                    IsReadOnly="True"
+                    MinColumnWidth="30"
+                    MinRowHeight="20"
+                    SelectionMode="Single"
+                    SelectionUnit="Cell"
+                    VerticalGridLinesBrush="#FFB4AEAE">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="*"
+                            MinWidth="300"
+                            Binding="{Binding AppName}"
+                            CanUserResize="False"
+                            FontSize="14"
+                            Foreground="Black"
+                            Header="App đã thêm" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
         </Border>
         <Label
             Name="labelResult"

@@ -447,12 +447,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_635A49533B19488FB17B392CC9614366"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_641351B0209063FF36D1E705EFB6E551"
         "OwnerKey" = "8:_4A52C9A8DE1468063DC675C465B3ADF0"
         "MsmSig" = "8:_UNDEFINED"
@@ -532,12 +526,6 @@
         "Entry"
         {
         "MsmKey" = "8:_6C9748AC313C1FC8B3FBD608F87BEDD3"
-        "OwnerKey" = "8:_635A49533B19488FB17B392CC9614366"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6C9748AC313C1FC8B3FBD608F87BEDD3"
         "OwnerKey" = "8:_F22F368324C67EF1E69456FEB87A80AA"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -569,12 +557,6 @@
         {
         "MsmKey" = "8:_7CC1DB4A590C1AB4044032B996E6835A"
         "OwnerKey" = "8:_A374FC04CB164C04B81A08496533FC6C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7CC1DB4A590C1AB4044032B996E6835A"
-        "OwnerKey" = "8:_635A49533B19488FB17B392CC9614366"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -711,6 +693,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_E91A126913174429912C53BEE58D1111"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F22F368324C67EF1E69456FEB87A80AA"
         "OwnerKey" = "8:_6A367D6D2E304EEDA25508370D96C14C"
         "MsmSig" = "8:_UNDEFINED"
@@ -754,6 +742,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E91A126913174429912C53BEE58D1111"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_A374FC04CB164C04B81A08496533FC6C"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -761,12 +755,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E6BFDD3DC8716C0374AA605695F21B4F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_635A49533B19488FB17B392CC9614366"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1765,32 +1753,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_635A49533B19488FB17B392CC9614366"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:KMASafeKidGUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                }
-            "SourcePath" = "8:..\\KMASafeKidGUI\\bin\\Release\\KMASafeKidGUI.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_4B88FE7AAFD9486690F1832EB1350ED5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_641351B0209063FF36D1E705EFB6E551"
             {
             "AssemblyRegister" = "3:1"
@@ -2471,6 +2433,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E91A126913174429912C53BEE58D1111"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:KMASafeGUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E91A126913174429912C53BEE58D1111"
+                    {
+                    "Name" = "8:KMASafeGUI.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:res\\KMASafeGUI.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4B88FE7AAFD9486690F1832EB1350ED5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F22F368324C67EF1E69456FEB87A80AA"
             {
             "AssemblyRegister" = "3:1"
@@ -2629,7 +2622,7 @@
             "{1525181F-901A-416C-8A58-119130FE478E}:_C32AB53DEC574302BE52D74E155B8E05"
             {
             "Name" = "8:#1916"
-            "AlwaysCreate" = "11:FALSE"
+            "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Property" = "8:DesktopFolder"
@@ -2919,7 +2912,7 @@
                             "ContextData" = "8:1;True=1;False=0"
                             "Attributes" = "3:0"
                             "Setting" = "3:0"
-                            "Value" = "3:1"
+                            "Value" = "3:0"
                             "DefaultValue" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -3189,7 +3182,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6A367D6D2E304EEDA25508370D96C14C"
             {
-            "SourcePath" = "8:..\\KMASafeKidGUI\\obj\\Release\\KMASafeKidGUI.exe"
+            "SourcePath" = "8:..\\KMASafeKidGUI\\obj\\Debug\\KMASafeGUI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_4B88FE7AAFD9486690F1832EB1350ED5"

@@ -21,7 +21,8 @@ namespace KMASafeGUI
     public partial class AddBlockWindow : Window
     {
         public static EventWaitHandle signalWaitResult = new EventWaitHandle(false, EventResetMode.AutoReset);
-        private List<DataBlock> appBlock = new List<DataBlock>();
+        private List<DataBlock> WebBlock = new List<DataBlock>();
+        private List<DataBlock> AppBlock = new List<DataBlock>();
         public AddBlockWindow()
         {
             InitializeComponent();
@@ -31,13 +32,15 @@ namespace KMASafeGUI
              // Chuy
             foreach (var item in ssUserHost)
             {
-                appBlock.Add(new DataBlock { Name = item});
+                WebBlock.Add(new DataBlock { WebName = item});
             }
             foreach (var item in ssUserApp)
             {
-                appBlock.Add(new DataBlock { Name = item });
+                AppBlock.Add(new DataBlock { AppName = item });
             }
-            dgBlockShow.ItemsSource = appBlock;
+
+            dgBlockShow.ItemsSource = WebBlock;
+            dgAppShow.ItemsSource = AppBlock;
         }
 
         private void Btn_Close_Click(object sender, RoutedEventArgs e)
@@ -83,16 +86,16 @@ namespace KMASafeGUI
                 SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
                 SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
                 // Chuy
-                appBlock.Clear();
+                WebBlock.Clear();
                 foreach (var item in ssUserHost)
                 {
-                    appBlock.Add(new DataBlock { Name = item });
+                    WebBlock.Add(new DataBlock { WebName = item });
                 }
                 foreach (var item in ssUserApp)
                 {
-                    appBlock.Add(new DataBlock { Name = item });
+                    WebBlock.Add(new DataBlock { WebName = item });
                 }
-                dgBlockShow.ItemsSource = appBlock;
+                dgBlockShow.ItemsSource = WebBlock;
                 //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
                 dgBlockShow.Items.Refresh();
                 labelResult.Content = "Thêm thành công !";
@@ -118,16 +121,16 @@ namespace KMASafeGUI
                 SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
                 SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
                 // Chuy
-                appBlock.Clear();
+                WebBlock.Clear();
                 foreach (var item in ssUserHost)
                 {
-                    appBlock.Add(new DataBlock { Name = item });
+                    WebBlock.Add(new DataBlock { WebName = item });
                 }
                 foreach (var item in ssUserApp)
                 {
-                    appBlock.Add(new DataBlock { Name = item });
+                    WebBlock.Add(new DataBlock { WebName = item });
                 }
-                dgBlockShow.ItemsSource = appBlock;
+                dgBlockShow.ItemsSource = WebBlock;
                 //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
                 dgBlockShow.Items.Refresh();
                 labelResult.Content = "Thêm thành công !";
@@ -143,7 +146,8 @@ namespace KMASafeGUI
     }
     public class DataBlock
     {
-        public string Name { get; set; }
+        public string WebName { get; set; }
+        public string AppName { get; set; }
     }
 
 }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using IniParser;
 using IniParser.Model;
+using Microsoft.Win32;
 namespace KMASafeGUI
 {
     /// <summary>
@@ -25,62 +28,66 @@ namespace KMASafeGUI
     {
         private static string CONFIG_NAME = "config.ini";
         private static string PATH_CONFIG_FILE = ".\\" + CONFIG_NAME;// System.IO.Directory.GetCurrentDirectory() + "\\" + CONFIG_NAME;
-
+        public static EventWaitHandle signalWaitResult = new EventWaitHandle(false, EventResetMode.AutoReset);
+        private static string PassworDecrypt = "";
+        private static bool bFlagNewPassword = false;
         public MainWindow()
         {
             InitializeComponent();
             InputLogin.Focus();
             textCreatePass.Visibility = Visibility.Hidden;
-            var iniFile = new FileIniDataParser();
-            IniData dataINI = iniFile.ReadFile(PATH_CONFIG_FILE);
-            if (dataINI["User"]["pwd"] == null || dataINI["User"]["pwd"].ToString() == "")
+            PipeClient.OninitPipes();
+            // chưa có pass thì close, mở lại lấy quyền admin để chạy
+            if (Registry.LocalMachine.OpenSubKey("SOFTWARE\\KMASafe").GetValue("pwd") == null)
             {
-                textCreatePass.Visibility = Visibility.Visible;
+                bool isAdmin = (new WindowsPrincipal(WindowsIdentity.GetCurrent())).IsInRole(WindowsBuiltInRole.Administrator);
+                if (!isAdmin)
+                {
+                    PipeClient.FlagSend = (int)PipeClient.fText.OpenGUIAdmin;
+                    PipeClient.signal.Set();
+                    signalWaitResult.WaitOne(1000);
+                    Close();
+                }
+                else
+                {
+                    textCreatePass.Visibility = Visibility.Visible;
+                    bFlagNewPassword = true;
+                }
             }
         }
 
         private void ButtonLogin(object sender, RoutedEventArgs e)
         {
-            var iniFile = new FileIniDataParser();
-            IniData dataINI = iniFile.ReadFile(PATH_CONFIG_FILE);
-            if (dataINI["User"]["pwd"] == null || dataINI["User"]["pwd"] == "")
+            try
             {
-                dataINI["User"]["pwd"] = InputLogin.Password;
-                iniFile.WriteFile(PATH_CONFIG_FILE, dataINI);
-            }
-            if (dataINI["User"]["pwd"] == InputLogin.Password)
-            {
-
-                ScreenApp screenApp = new ScreenApp();
-                screenApp.Show();
-                Close();
-            }
-            else
-            {
-                textCreatePass.Text = "Mật khẩu sai, nhập lại mật khẩu !";
-                textCreatePass.Foreground = Brushes.Red;
-                textCreatePass.Visibility = Visibility.Visible;
-            }
-        }
-        private void ClickClose(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void Enter_Input_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Return)
-            {
-                var iniFile = new FileIniDataParser();
-                IniData dataINI = iniFile.ReadFile(PATH_CONFIG_FILE);
-                if (dataINI["User"]["pwd"] == null || dataINI["User"]["pwd"] == "")
+                if (bFlagNewPassword)
                 {
-                    dataINI["User"]["pwd"] = InputLogin.Password;
-                    iniFile.WriteFile(PATH_CONFIG_FILE, dataINI);
+                    if (InputLogin.Password == "")
+                    {
+                        textCreatePass.Text = "Mật khẩu không được trống !";
+                        textCreatePass.Visibility = Visibility.Visible;
+                        return;
+                    }
+
+                    string PasswordEncrypt = AES.EncryptBase64ToString(InputLogin.Password);
+                    Registry.LocalMachine.CreateSubKey("SOFTWARE\\KMASafe").SetValue("pwd", PasswordEncrypt);
+                    bFlagNewPassword = false;
+
+                    textCreatePass.Text = "Oke, Nhập mật khẩu vừa tạo !";
+                    textCreatePass.Foreground = Brushes.Red;
+                    textCreatePass.Visibility = Visibility.Visible;
+
+                    return;
                 }
-                if (dataINI["User"]["pwd"] == InputLogin.Password)
+                else
                 {
+                    string passMH = Registry.LocalMachine.OpenSubKey("SOFTWARE\\KMASafe").GetValue("pwd").ToString();
+                    PassworDecrypt = AES.DecryptBase64ToString(passMH);
+                    bFlagNewPassword = false;
+                }
 
+                if (PassworDecrypt == InputLogin.Password)
+                {
                     ScreenApp screenApp = new ScreenApp();
                     screenApp.Show();
                     Close();
@@ -92,6 +99,14 @@ namespace KMASafeGUI
                     textCreatePass.Visibility = Visibility.Visible;
                 }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Lỗi không xác định");
+            }
+        }
+        private void ClickClose(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

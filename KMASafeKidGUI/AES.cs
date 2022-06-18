@@ -24,7 +24,7 @@ namespace KMASafeGUI
 
                 // Encrypt the string to an array of bytes.
                 //byte[] block = File.ReadAllBytes(@".\DomainAdult.dat");
-                string original = File.ReadAllText(@".\DomainSocial.dat");
+                string original = File.ReadAllText(@".\GameBlock.dat");
                 // string original = System.Text.Encoding.UTF8.GetString(block);
 
                 byte[] encrypted = EncryptStringToBytes_Aes(original, myAes.Key, myAes.IV);
@@ -152,6 +152,53 @@ namespace KMASafeGUI
             }
             return sortList;
         }
+
+        public static string EncryptBase64ToString(string sEncrypt)
+        {
+            try
+            {
+                using (Aes myAes = Aes.Create())
+                {
+                    myAes.Key = Encoding.UTF8.GetBytes(sMyKey);
+                    myAes.IV = Encoding.UTF8.GetBytes(sVectorIV);
+
+                    string original = sEncrypt;
+                    // string original = System.Text.Encoding.UTF8.GetString(block);
+                    byte[] encrypted = EncryptStringToBytes_Aes(original, myAes.Key, myAes.IV);
+                    sEncrypt = Convert.ToBase64String(encrypted);
+                    //sEncrypt = System.Text.Encoding.UTF8.GetString(encrypted);
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return sEncrypt;
+        }
+        public static string DecryptBase64ToString(string sDecrypt)
+        {
+            try
+            {
+                using (Aes myAes = Aes.Create())
+                {
+                    myAes.Key = Encoding.UTF8.GetBytes(sMyKey);
+                    myAes.IV = Encoding.UTF8.GetBytes(sVectorIV);
+
+                    byte[] encrypted = Convert.FromBase64String(sDecrypt);
+
+                    // string original = System.Text.Encoding.UTF8.GetString(block);
+                    string original = DecryptStringFromBytes_Aes(encrypted, myAes.Key, myAes.IV);
+                    sDecrypt = original;
+                    //sEncrypt = System.Text.Encoding.UTF8.GetString(encrypted);
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return sDecrypt;
+        }
+
         private static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
         {
             // Check arguments.

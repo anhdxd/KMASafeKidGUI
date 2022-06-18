@@ -12,11 +12,12 @@
     AllowsTransparency="True"
     Background="Transparent"
     Icon="/Image/logoKMA.png"
+    Loaded="Window_Loaded"
     ResizeMode="NoResize"
     ShowInTaskbar="True"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
-    mc:Ignorable="d" Loaded="Window_Loaded">
+    mc:Ignorable="d">
     <Grid>
         <!--  chia layout  -->
         <Grid>
@@ -96,7 +97,6 @@
                     FontSize="20"
                     FontWeight="Light"
                     Foreground="Black"
-                    KeyDown="Enter_Input_KeyDown"
                     Opacity="0.5" />
 
                 <iconPacks:PackIconMaterial
@@ -132,7 +132,8 @@
                 FontFamily="Arial"
                 FontSize="14"
                 FontWeight="Bold"
-                Foreground="Black">
+                Foreground="Black"
+                IsDefault="true">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="20" />

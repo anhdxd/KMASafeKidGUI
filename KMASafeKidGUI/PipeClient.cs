@@ -25,7 +25,8 @@ namespace KMASafeGUI
             DeleteAppDB,
             ChangeSetting,
             GetAppInstall,
-        }
+            OpenGUIAdmin,
+    }
 
         public static void OninitPipes()
         {
@@ -88,6 +89,11 @@ namespace KMASafeGUI
                         ss.WriteString(sSend);
                         break;
                     case (int)fText.GetAppInstall:
+                        break;
+                    case (int)fText.OpenGUIAdmin:
+                        sSend = string.Format("{{'flag':{0},'sPath':'{1}'}}", (int)fText.OpenGUIAdmin, System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.Replace("\\","\\\\"));
+                        ss.WriteString(sSend);
+                        MainWindow.signalWaitResult.Set();
                         break;
                     default:
                         break;

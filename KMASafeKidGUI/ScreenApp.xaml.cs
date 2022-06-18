@@ -32,7 +32,7 @@ namespace KMASafeGUI
         {
             InitializeComponent();
             dataView = new DataView();
-            PipeClient.OninitPipes();
+            
             //diarys.Add(new AppDiaryModel() { AppName = "asas", TimeStart = "John Doe", TimeUsed = "" });
             //diarys.Add(new AppDiaryModel() { AppName = "asas", TimeStart = "Jane Doe", TimeUsed = "" });
             // Setting
