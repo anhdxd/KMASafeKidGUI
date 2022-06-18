@@ -24,7 +24,6 @@ namespace KMASafeGUI
             DeleteHostDB,
             DeleteAppDB,
             ChangeSetting,
-            GetAppInstall,
             OpenGUIAdmin,
     }
 
@@ -85,10 +84,8 @@ namespace KMASafeGUI
                     case (int)fText.DeleteAppDB:
                         break;
                     case (int)fText.ChangeSetting:
-                        sSend = string.Format("{{'flag':{0}}}", (int)fText.ChangeSetting);
-                        ss.WriteString(sSend);
-                        break;
-                    case (int)fText.GetAppInstall:
+                        //sSend = string.Format("{{'flag':{0}}}", (int)fText.ChangeSetting);
+                        ss.WriteString(StringSend);
                         break;
                     case (int)fText.OpenGUIAdmin:
                         sSend = string.Format("{{'flag':{0},'sPath':'{1}'}}", (int)fText.OpenGUIAdmin, System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.Replace("\\","\\\\"));

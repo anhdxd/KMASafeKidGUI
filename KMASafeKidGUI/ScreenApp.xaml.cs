@@ -32,16 +32,16 @@ namespace KMASafeGUI
         {
             InitializeComponent();
             dataView = new DataView();
-            
+
             //diarys.Add(new AppDiaryModel() { AppName = "asas", TimeStart = "John Doe", TimeUsed = "" });
             //diarys.Add(new AppDiaryModel() { AppName = "asas", TimeStart = "Jane Doe", TimeUsed = "" });
             // Setting
             IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-            Toggle_Adult.IsChecked = data["WebConfig"]["BlockAdult"].ToString() == "1" ? true : false;
-            Toggle_Social.IsChecked = data["WebConfig"]["BlockSocial"].ToString() == "1" ? true : false;
-            Toggle_Inprivate.IsChecked = data["WebConfig"]["Inprivate"].ToString() == "1" ? true : false;
-            Toggle_Game.IsChecked = data["AppConfig"]["BlockGame"].ToString() == "1" ? true : false;
-            Toggle_SafeSearch.IsChecked = data["WebConfig"]["Safe"].ToString() == "1" ? true : false;
+            Toggle_Adult.IsChecked = data["BlockConfig"]["BlockAdult"].ToString() == "1" ? true : false;
+            Toggle_Social.IsChecked = data["BlockConfig"]["BlockSocial"].ToString() == "1" ? true : false;
+            Toggle_Inprivate.IsChecked = data["BlockConfig"]["Inprivate"].ToString() == "1" ? true : false;
+            Toggle_Game.IsChecked = data["BlockConfig"]["BlockGame"].ToString() == "1" ? true : false;
+            Toggle_SafeSearch.IsChecked = data["BlockConfig"]["Safe"].ToString() == "1" ? true : false;
             // SQlite
             sQLiteCon.ConnectionString = "Data Source = " + @".\BlockDB.sqlite";
             sQLiteCon.Open();
@@ -54,7 +54,7 @@ namespace KMASafeGUI
             {
                 dStart = DateTime.FromFileTime((long)DataReader["TimeStart"]);
                 timeSpanUsed = TimeSpan.FromSeconds((long)DataReader["TimeUsed"]);
-                diarys.Add(new AppDiaryModel() { AppName = DataReader["AppName"].ToString(), TimeStart = dStart.ToString(), TimeUsed = timeSpanUsed.ToString()+"s"});
+                diarys.Add(new AppDiaryModel() { AppName = DataReader["AppName"].ToString(), TimeStart = dStart.ToString(), TimeUsed = timeSpanUsed.ToString() + "s" });
             }
             dataView.ViewAppDiary = diarys;
             DataContext = dataView;
@@ -62,7 +62,7 @@ namespace KMASafeGUI
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Point pos = e.GetPosition(this);
-            if (pos.X < Width && pos.Y <30)
+            if (pos.X < Width && pos.Y < 30)
             {
                 if (e.ChangedButton == MouseButton.Left)
                 {
@@ -74,102 +74,49 @@ namespace KMASafeGUI
 
         private void Adult_Setting_Clicked(object sender, RoutedEventArgs e)
         {
-            if ((bool)Toggle_Adult.IsChecked)
-            {
-                IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-                data["WebConfig"]["BlockAdult"] = "1";
-                iniFile.WriteFile(PATH_CONFIG_FILE, data);
-                PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
-                PipeClient.signal.Set();
-            }
-            else
-            {
-                IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-                data["WebConfig"]["BlockAdult"] = "0";
-                iniFile.WriteFile(PATH_CONFIG_FILE, data);
-                PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
-                PipeClient.signal.Set();
-            }
+            PipeClient.StringSend = (bool)Toggle_Adult.IsChecked
+                ? string.Format("{{'flag':{0},'Field':'BlockAdult','val':'1'}}", (int)PipeClient.fText.ChangeSetting)
+                : string.Format("{{'flag':{0},'Field':'BlockAdult','val':'0'}}", (int)PipeClient.fText.ChangeSetting);
+            PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
+            _ = PipeClient.signal.Set();
         }
         // Social----------------------------------------------------
         private void Social_Setting_Clicked(object sender, RoutedEventArgs e)
         {
-            if ((bool)Toggle_Social.IsChecked)
-            {
-                IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-                data["WebConfig"]["BlockSocial"] = "1";
-                iniFile.WriteFile(PATH_CONFIG_FILE, data);
-                PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
-                PipeClient.signal.Set();
-            }
-            else
-            {
-                IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-                data["WebConfig"]["BlockSocial"] = "0";
-                iniFile.WriteFile(PATH_CONFIG_FILE, data);
-                PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
-                PipeClient.signal.Set();
-            }
+            PipeClient.StringSend = (bool)Toggle_Social.IsChecked
+                ? string.Format("{{'flag':{0},'Field':'BlockSocial','val':'1'}}", (int)PipeClient.fText.ChangeSetting)
+                : string.Format("{{'flag':{0},'Field':'BlockSocial','val':'0'}}", (int)PipeClient.fText.ChangeSetting);
+            PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
+            _ = PipeClient.signal.Set();
         }
         // Game-------------------------------------------------------
         private void Game_Setting_Clicked(object sender, RoutedEventArgs e)
         {
-            if ((bool)Toggle_Game.IsChecked)
-            {
-                IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-                data["AppConfig"]["BlockGame"] = "1";
-                iniFile.WriteFile(PATH_CONFIG_FILE, data);
-                PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
-                PipeClient.signal.Set();
-            }
-            else
-            {
-                IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-                data["AppConfig"]["BlockGame"] = "0";
-                iniFile.WriteFile(PATH_CONFIG_FILE, data);
-                PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
-                PipeClient.signal.Set();
-            }
+            PipeClient.StringSend = (bool)Toggle_Game.IsChecked
+                ? string.Format("{{'flag':{0},'Field':'BlockGame','val':'1'}}", (int)PipeClient.fText.ChangeSetting)
+                : string.Format("{{'flag':{0},'Field':'BlockGame','val':'0'}}", (int)PipeClient.fText.ChangeSetting);
+            PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
+            _ = PipeClient.signal.Set();
+
         }
         //Safe Search-------------------------------------------------------
         private void SafeSearch_Setting_Clicked(object sender, RoutedEventArgs e)
         {
-            if ((bool)Toggle_SafeSearch.IsChecked)
-            {
-                IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-                data["WebConfig"]["Safe"] = "1";
-                iniFile.WriteFile(PATH_CONFIG_FILE, data);
-                PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
-                PipeClient.signal.Set();
-            }
-            else
-            {
-                IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-                data["WebConfig"]["Safe"] = "0";
-                iniFile.WriteFile(PATH_CONFIG_FILE, data);
-                PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
-                PipeClient.signal.Set();
-            }
+            PipeClient.StringSend = (bool)Toggle_SafeSearch.IsChecked
+                ? string.Format("{{'flag':{0},'Field':'Safe','val':'1'}}", (int)PipeClient.fText.ChangeSetting)
+                : string.Format("{{'flag':{0},'Field':'Safe','val':'0'}}", (int)PipeClient.fText.ChangeSetting);
+            PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
+            _ = PipeClient.signal.Set();
+
         }
         //Inprivate ---------------------------------------------------------------------
         private void Inprivate_Setting_Clicked(object sender, RoutedEventArgs e)
         {
-            if ((bool)Toggle_Inprivate.IsChecked)
-            {
-                IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-                data["WebConfig"]["Inprivate"] = "1";
-                iniFile.WriteFile(PATH_CONFIG_FILE, data);
-                PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
-                PipeClient.signal.Set();
-            }
-            else
-            {
-                IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
-                data["WebConfig"]["Inprivate"] = "0";
-                iniFile.WriteFile(PATH_CONFIG_FILE, data);
-                PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
-                PipeClient.signal.Set();
-            }
+            PipeClient.StringSend = (bool)Toggle_Inprivate.IsChecked
+                ? string.Format("{{'flag':{0},'Field':'Inprivate','val':'1'}}", (int)PipeClient.fText.ChangeSetting)
+                : string.Format("{{'flag':{0},'Field':'Inprivate','val':'0'}}", (int)PipeClient.fText.ChangeSetting);
+            PipeClient.FlagSend = (int)PipeClient.fText.ChangeSetting;
+            _ = PipeClient.signal.Set();
         }
         //Button------------------------------------------------------------------
         private void Btn_InstallApp(object sender, RoutedEventArgs e)
