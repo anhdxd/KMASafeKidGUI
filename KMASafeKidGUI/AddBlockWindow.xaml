@@ -146,6 +146,11 @@
                     SelectionMode="Single"
                     SelectionUnit="Cell"
                     VerticalGridLinesBrush="#FFB4AEAE">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Click="DeleteWebClick" Header="Xóa" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight" Value="Bold" />
@@ -186,6 +191,11 @@
                     SelectionMode="Single"
                     SelectionUnit="Cell"
                     VerticalGridLinesBrush="#FFB4AEAE">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Click="DeleteAppClick" Header="Xóa" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight" Value="Bold" />

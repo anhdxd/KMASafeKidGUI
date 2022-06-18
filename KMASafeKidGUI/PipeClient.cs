@@ -80,8 +80,22 @@ namespace KMASafeGUI
                         break;
 
                     case (int)fText.DeleteHostDB:
+                        sSend = string.Format("{{'flag':{0},'sPath':'{1}'}}", (int)fText.DeleteHostDB, StringSend);
+                        int res = ss.WriteString(sSend);
+                        Thread.Sleep(100);
+                        if (pipeClient.CanRead)
+                            bResult = bool.Parse(ss.ReadString());
+                        else bResult = false;
+                        AddBlockWindow.signalWaitResult.Set();
                         break;
                     case (int)fText.DeleteAppDB:
+                        sSend = string.Format("{{'flag':{0},'sPath':'{1}'}}", (int)fText.DeleteAppDB, StringSend);
+                        ss.WriteString(sSend);
+                        Thread.Sleep(100);
+                        if (pipeClient.CanRead)
+                            bResult = bool.Parse(ss.ReadString());
+                        else bResult = false;
+                        AddBlockWindow.signalWaitResult.Set();
                         break;
                     case (int)fText.ChangeSetting:
                         //sSend = string.Format("{{'flag':{0}}}", (int)fText.ChangeSetting);

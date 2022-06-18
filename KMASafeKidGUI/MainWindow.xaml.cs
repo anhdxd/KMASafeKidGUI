@@ -34,11 +34,13 @@ namespace KMASafeGUI
         public MainWindow()
         {
             InitializeComponent();
+
+
             InputLogin.Focus();
             textCreatePass.Visibility = Visibility.Hidden;
             PipeClient.OninitPipes();
             // chưa có pass thì close, mở lại lấy quyền admin để chạy
-            if (Registry.LocalMachine.OpenSubKey("SOFTWARE\\KMASafe").GetValue("pwd") == null)
+            if (Registry.LocalMachine.OpenSubKey("SOFTWARE\\KMASafe") == null)
             {
                 bool isAdmin = (new WindowsPrincipal(WindowsIdentity.GetCurrent())).IsInRole(WindowsBuiltInRole.Administrator);
                 if (!isAdmin)
@@ -107,6 +109,7 @@ namespace KMASafeGUI
         private void ClickClose(object sender, RoutedEventArgs e)
         {
             Close();
+            Environment.Exit(0);
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -114,7 +117,9 @@ namespace KMASafeGUI
             var other_process = Process.GetProcessesByName(current_process.ProcessName).FirstOrDefault(p => p.Id != current_process.Id);
             if (other_process != null && other_process.MainWindowHandle != IntPtr.Zero)
             {
-                current_process.Kill();
+                current_process.Close();
+                Environment.Exit(0);
+                return;
             }
         }
     }

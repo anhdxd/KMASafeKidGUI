@@ -132,7 +132,9 @@ namespace KMASafeGUI
         }
         private void ClickClose(object sender, RoutedEventArgs e)
         {
+
             this.Close();
+            Environment.Exit(0);
         }
 
 

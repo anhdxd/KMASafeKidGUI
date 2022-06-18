@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -41,6 +42,7 @@ namespace KMASafeGUI
 
             dgBlockShow.ItemsSource = WebBlock;
             dgAppShow.ItemsSource = AppBlock;
+            
         }
 
         private void Btn_Close_Click(object sender, RoutedEventArgs e)
@@ -77,21 +79,17 @@ namespace KMASafeGUI
 
         private void btn_AddWeb_Click(object sender, RoutedEventArgs e)
         {
+            
             PipeClient.FlagSend = (int)PipeClient.fText.AddHostToDB;
             PipeClient.StringSend = tbInputBlockWeb.Text;
             PipeClient.signal.Set();
-            signalWaitResult.WaitOne(700);
+            signalWaitResult.WaitOne(500);
             if (PipeClient.bResult)
             {
-                SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
                 SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
                 // Chuy
                 WebBlock.Clear();
                 foreach (var item in ssUserHost)
-                {
-                    WebBlock.Add(new DataBlock { WebName = item });
-                }
-                foreach (var item in ssUserApp)
                 {
                     WebBlock.Add(new DataBlock { WebName = item });
                 }
@@ -115,22 +113,16 @@ namespace KMASafeGUI
             PipeClient.StringSend = tbInputAppBlock.Text;
             PipeClient.signal.Set();
 
-            signalWaitResult.WaitOne(700);
+            signalWaitResult.WaitOne(500);
             if (PipeClient.bResult)
             {
                 SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
-                SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
-                // Chuy
-                WebBlock.Clear();
-                foreach (var item in ssUserHost)
-                {
-                    WebBlock.Add(new DataBlock { WebName = item });
-                }
+                AppBlock.Clear();
                 foreach (var item in ssUserApp)
                 {
-                    WebBlock.Add(new DataBlock { WebName = item });
+                    AppBlock.Add(new DataBlock { AppName = item });
                 }
-                dgBlockShow.ItemsSource = WebBlock;
+                dgBlockShow.ItemsSource = AppBlock;
                 //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
                 dgBlockShow.Items.Refresh();
                 labelResult.Content = "Thêm thành công !";
@@ -142,7 +134,66 @@ namespace KMASafeGUI
                 labelResult.Visibility = Visibility.Hidden;
             }
         }
-        
+
+        private void DeleteWebClick(object sender, RoutedEventArgs e)
+        {
+            DataBlock db = dgBlockShow.CurrentItem as DataBlock;
+            PipeClient.StringSend = db.WebName;
+            PipeClient.FlagSend = (int)PipeClient.fText.DeleteHostDB;
+            PipeClient.signal.Set();
+
+            signalWaitResult.WaitOne(100);
+            if (PipeClient.bResult)
+            {
+                SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
+                // Chuy
+                WebBlock.Clear();
+                foreach (var item in ssUserHost)
+                {
+                    WebBlock.Add(new DataBlock { WebName = item });
+                }
+                dgBlockShow.ItemsSource = WebBlock;
+                //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
+                dgBlockShow.Items.Refresh();
+                labelResult.Content = "Xóa thành công !";
+                labelResult.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("Xóa thất bại !");
+                labelResult.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void DeleteAppClick(object sender, RoutedEventArgs e)
+        {
+            DataBlock db = dgAppShow.CurrentItem as DataBlock;
+            PipeClient.StringSend = db.AppName;
+            PipeClient.FlagSend = (int)PipeClient.fText.DeleteAppDB;
+            PipeClient.signal.Set();
+
+            signalWaitResult.WaitOne(100);
+            if (PipeClient.bResult)
+            {
+                SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
+                // Chuy
+                AppBlock.Clear();
+                foreach (var item in ssUserApp)
+                {
+                    AppBlock.Add(new DataBlock { AppName = item });
+                }
+                dgBlockShow.ItemsSource = AppBlock;
+                //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
+                dgBlockShow.Items.Refresh();
+                labelResult.Content = "Xóa thành công !";
+                labelResult.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("Xóa thất bại !");
+                labelResult.Visibility = Visibility.Hidden;
+            }
+        }
     }
     public class DataBlock
     {

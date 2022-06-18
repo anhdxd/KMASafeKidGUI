@@ -117,10 +117,8 @@
                 RenderTransformOrigin="0.472,-2.5"
                 Text="Nhật ký sử dụng phần mềm/Truy cập webSite" />
             <Button
-                Width="30px"
                 Height="30px"
-                Margin="802,-49,0,0"
-                HorizontalAlignment="Left"
+                Margin="802,-49,6,0"
                 VerticalAlignment="Top"
                 Click="ClickClose"
                 FontWeight="Normal">
