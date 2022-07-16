@@ -79,7 +79,10 @@ namespace KMASafeGUI
 
         private void btn_AddWeb_Click(object sender, RoutedEventArgs e)
         {
-            
+            //Uri uriResult;
+            //bool tryCreateResult = Uri.TryCreate(tbInputBlockWeb.Text, UriKind.Absolute, out uriResult);
+            //if (tryCreateResult == true && uriResult != null)
+            //{
             PipeClient.FlagSend = (int)PipeClient.fText.AddHostToDB;
             PipeClient.StringSend = tbInputBlockWeb.Text;
             PipeClient.signal.Set();
@@ -104,11 +107,15 @@ namespace KMASafeGUI
                 //labelResult.Content = "Thêm thất bại !";
                 MessageBox.Show("Thêm thất bại !");
                 labelResult.Visibility = Visibility.Hidden;
-            }    
+            }
+            //}
+            //else
+            //    MessageBox.Show("Sai địng dạng Web\nĐịnh dạng đúng VD: www.domain.com");
         }
 
         private void btn_AddApp_Click(object sender, RoutedEventArgs e)
         {
+
             PipeClient.FlagSend = (int)PipeClient.fText.AddAppToDB;
             PipeClient.StringSend = tbInputAppBlock.Text;
             PipeClient.signal.Set();
@@ -122,9 +129,9 @@ namespace KMASafeGUI
                 {
                     AppBlock.Add(new DataBlock { AppName = item });
                 }
-                dgBlockShow.ItemsSource = AppBlock;
+                dgAppShow.ItemsSource = AppBlock;
                 //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
-                dgBlockShow.Items.Refresh();
+                dgAppShow.Items.Refresh();
                 labelResult.Content = "Thêm thành công !";
                 labelResult.Visibility = Visibility.Visible;
             }
@@ -133,6 +140,7 @@ namespace KMASafeGUI
                 MessageBox.Show("Thêm thất bại !");
                 labelResult.Visibility = Visibility.Hidden;
             }
+
         }
 
         private void DeleteWebClick(object sender, RoutedEventArgs e)
@@ -182,9 +190,9 @@ namespace KMASafeGUI
                 {
                     AppBlock.Add(new DataBlock { AppName = item });
                 }
-                dgBlockShow.ItemsSource = AppBlock;
+                dgAppShow.ItemsSource = AppBlock;
                 //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
-                dgBlockShow.Items.Refresh();
+                dgAppShow.Items.Refresh();
                 labelResult.Content = "Xóa thành công !";
                 labelResult.Visibility = Visibility.Visible;
             }
