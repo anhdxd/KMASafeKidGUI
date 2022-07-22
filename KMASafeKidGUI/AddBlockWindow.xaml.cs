@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using Newtonsoft.Json.Linq;
 namespace KMASafeGUI
 {
     /// <summary>
@@ -79,128 +79,80 @@ namespace KMASafeGUI
 
         private void btn_AddWeb_Click(object sender, RoutedEventArgs e)
         {
-            //Uri uriResult;
-            //bool tryCreateResult = Uri.TryCreate(tbInputBlockWeb.Text, UriKind.Absolute, out uriResult);
-            //if (tryCreateResult == true && uriResult != null)
-            //{
-            PipeClient.FlagSend = (int)PipeClient.fText.AddHostToDB;
-            PipeClient.StringSend = tbInputBlockWeb.Text;
-            PipeClient.signal.Set();
-            signalWaitResult.WaitOne(500);
-            if (PipeClient.bResult)
+            JObject jSendToSV = new JObject();
+            jSendToSV["flag"] = (int)PipeClient.fText.AddHostToDB;
+            jSendToSV["sDomain"] = tbInputBlockWeb.Text;
+            PipeClient.SendRequestToServer(jSendToSV.ToString());
+
+            System.Threading.Thread.Sleep(100);
+            SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
+            WebBlock.Clear();
+            foreach (var item in ssUserHost)
             {
-                SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
-                // Chuy
-                WebBlock.Clear();
-                foreach (var item in ssUserHost)
-                {
-                    WebBlock.Add(new DataBlock { WebName = item });
-                }
-                dgBlockShow.ItemsSource = WebBlock;
-                //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
-                dgBlockShow.Items.Refresh();
-                labelResult.Content = "Thêm thành công !";
-                labelResult.Visibility = Visibility.Visible;
+                WebBlock.Add(new DataBlock { WebName = item });
             }
-            else
-            {
-                //labelResult.Content = "Thêm thất bại !";
-                MessageBox.Show("Thêm thất bại !");
-                labelResult.Visibility = Visibility.Hidden;
-            }
-            //}
-            //else
-            //    MessageBox.Show("Sai địng dạng Web\nĐịnh dạng đúng VD: www.domain.com");
+            dgBlockShow.ItemsSource = WebBlock;
+            dgBlockShow.Items.Refresh();
+
         }
 
         private void btn_AddApp_Click(object sender, RoutedEventArgs e)
         {
+            JObject jSendToSV = new JObject();
+            jSendToSV["flag"] = (int)PipeClient.fText.AddAppToDB;
+            jSendToSV["sPath"] = tbInputAppBlock.Text;
 
-            PipeClient.FlagSend = (int)PipeClient.fText.AddAppToDB;
-            PipeClient.StringSend = tbInputAppBlock.Text;
-            PipeClient.signal.Set();
+            PipeClient.SendRequestToServer(jSendToSV.ToString());
 
-            signalWaitResult.WaitOne(500);
-            if (PipeClient.bResult)
+            System.Threading.Thread.Sleep(100);
+            SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
+            AppBlock.Clear();
+            foreach (var item in ssUserApp)
             {
-                SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
-                AppBlock.Clear();
-                foreach (var item in ssUserApp)
-                {
-                    AppBlock.Add(new DataBlock { AppName = item });
-                }
-                dgAppShow.ItemsSource = AppBlock;
-                //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
-                dgAppShow.Items.Refresh();
-                labelResult.Content = "Thêm thành công !";
-                labelResult.Visibility = Visibility.Visible;
+                AppBlock.Add(new DataBlock { AppName = item });
             }
-            else
-            {
-                MessageBox.Show("Thêm thất bại !");
-                labelResult.Visibility = Visibility.Hidden;
-            }
-
+            dgAppShow.ItemsSource = AppBlock;
+            dgAppShow.Items.Refresh();
         }
 
         private void DeleteWebClick(object sender, RoutedEventArgs e)
         {
             DataBlock db = dgBlockShow.CurrentItem as DataBlock;
-            PipeClient.StringSend = db.WebName;
-            PipeClient.FlagSend = (int)PipeClient.fText.DeleteHostDB;
-            PipeClient.signal.Set();
 
-            signalWaitResult.WaitOne(100);
-            if (PipeClient.bResult)
+            JObject jSendToSV = new JObject();
+            jSendToSV["flag"] = (int)PipeClient.fText.DeleteHostDB;
+            jSendToSV["sDomain"] = db.WebName;
+            PipeClient.SendRequestToServer(jSendToSV.ToString());
+
+            System.Threading.Thread.Sleep(100);
+            SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
+            WebBlock.Clear();
+            foreach (var item in ssUserHost)
             {
-                SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
-                // Chuy
-                WebBlock.Clear();
-                foreach (var item in ssUserHost)
-                {
-                    WebBlock.Add(new DataBlock { WebName = item });
-                }
-                dgBlockShow.ItemsSource = WebBlock;
-                //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
-                dgBlockShow.Items.Refresh();
-                labelResult.Content = "Xóa thành công !";
-                labelResult.Visibility = Visibility.Visible;
+                WebBlock.Add(new DataBlock { WebName = item });
             }
-            else
-            {
-                MessageBox.Show("Xóa thất bại !");
-                labelResult.Visibility = Visibility.Hidden;
-            }
+            dgBlockShow.ItemsSource = WebBlock;
+            dgBlockShow.Items.Refresh();
         }
 
         private void DeleteAppClick(object sender, RoutedEventArgs e)
         {
             DataBlock db = dgAppShow.CurrentItem as DataBlock;
-            PipeClient.StringSend = db.AppName;
-            PipeClient.FlagSend = (int)PipeClient.fText.DeleteAppDB;
-            PipeClient.signal.Set();
 
-            signalWaitResult.WaitOne(100);
-            if (PipeClient.bResult)
+            JObject jSendToSV = new JObject();
+            jSendToSV["flag"] = (int)PipeClient.fText.DeleteAppDB;
+            jSendToSV["sPath"] = db.AppName;
+            PipeClient.SendRequestToServer(jSendToSV.ToString());
+
+            System.Threading.Thread.Sleep(100);
+            SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
+            AppBlock.Clear();
+            foreach (var item in ssUserApp)
             {
-                SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
-                // Chuy
-                AppBlock.Clear();
-                foreach (var item in ssUserApp)
-                {
-                    AppBlock.Add(new DataBlock { AppName = item });
-                }
-                dgAppShow.ItemsSource = AppBlock;
-                //appBlock.Add(new DataBlock { Name = tbInputBlockWeb.Text });
-                dgAppShow.Items.Refresh();
-                labelResult.Content = "Xóa thành công !";
-                labelResult.Visibility = Visibility.Visible;
+                AppBlock.Add(new DataBlock { AppName = item });
             }
-            else
-            {
-                MessageBox.Show("Xóa thất bại !");
-                labelResult.Visibility = Visibility.Hidden;
-            }
+            dgAppShow.ItemsSource = AppBlock;
+            dgAppShow.Items.Refresh();
         }
     }
     public class DataBlock

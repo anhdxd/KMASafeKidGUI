@@ -25,20 +25,25 @@ namespace KMASafeGUI
             DeleteAppDB,
             ChangeSetting,
             OpenGUIAdmin,
-    }
-
+            GetListBlock,
+        }
+        
         public static void OninitPipes()
         {
             Thread threadSetting = new Thread(() =>
             {
                 while (true)
                 {
+                    
                     try
                     {
                         pipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.InOut, PipeOptions.WriteThrough | PipeOptions.Asynchronous);
-                        pipeClient.Connect();
-
-                        SendSettingChange();
+                        if (!pipeClient.IsConnected)
+                        {
+                            pipeClient.Connect();
+                            signal.WaitOne(); // signer close
+                        }
+                        //SendSettingChange();
                     }
                     catch (Exception)
                     {
@@ -49,82 +54,67 @@ namespace KMASafeGUI
             threadSetting.IsBackground = true;
             threadSetting.Start();
         }
-        public static void SendSettingChange()
+        public static void SendRequestToServer(String sSend)
         {
-            while (true)
+            try
             {
-                signal.WaitOne();
-
-                string sSend;
                 StreamString ss = new StreamString(pipeClient);
-                switch (FlagSend)
-                {
-                    case (int)fText.AddHostToDB:
-                        sSend = string.Format("{{'flag':{0},'sDomain':'{1}'}}", (int)fText.AddHostToDB, StringSend);
-                        ss.WriteString(sSend);
-                        Thread.Sleep(100);
-                        if (pipeClient.CanRead)
-                            bResult = bool.Parse(ss.ReadString());
-                        else bResult = false;
-                        AddBlockWindow.signalWaitResult.Set();
-                        break;
-
-                    case (int)fText.AddAppToDB:
-                        sSend = string.Format("{{'flag':{0},'sPath':'{1}'}}", (int)fText.AddAppToDB, StringSend.Replace("\\","\\\\"));
-                        ss.WriteString(sSend);
-                        Thread.Sleep(100);
-                        if (pipeClient.CanRead)
-                            bResult = bool.Parse(ss.ReadString());
-                        else bResult = false;
-                        AddBlockWindow.signalWaitResult.Set();
-                        break;
-
-                    case (int)fText.DeleteHostDB:
-                        sSend = string.Format("{{'flag':{0},'sPath':'{1}'}}", (int)fText.DeleteHostDB, StringSend);
-                        int res = ss.WriteString(sSend);
-                        Thread.Sleep(100);
-                        if (pipeClient.CanRead)
-                            bResult = bool.Parse(ss.ReadString());
-                        else bResult = false;
-                        AddBlockWindow.signalWaitResult.Set();
-                        break;
-                    case (int)fText.DeleteAppDB:
-                        sSend = string.Format("{{'flag':{0},'sPath':'{1}'}}", (int)fText.DeleteAppDB, StringSend);
-                        ss.WriteString(sSend);
-                        Thread.Sleep(100);
-                        if (pipeClient.CanRead)
-                            bResult = bool.Parse(ss.ReadString());
-                        else bResult = false;
-                        AddBlockWindow.signalWaitResult.Set();
-                        break;
-                    case (int)fText.ChangeSetting:
-                        //sSend = string.Format("{{'flag':{0}}}", (int)fText.ChangeSetting);
-                        ss.WriteString(StringSend);
-                        break;
-                    case (int)fText.OpenGUIAdmin:
-                        sSend = string.Format("{{'flag':{0},'sPath':'{1}'}}", (int)fText.OpenGUIAdmin, System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.Replace("\\","\\\\"));
-                        ss.WriteString(sSend);
-                        MainWindow.signalWaitResult.Set();
-                        break;
-                    default:
-                        break;
-                }
-                StringSend = "";
+                ss.WriteString(sSend);
             }
-            //Console.WriteLine(sSend);
-
-
-            //// Write Registry
-            //sSend = String.Format("{{'flag':{0}, 'valueName':'{1}', 'value':'{2}'}}", ((int)fText.WriteReg), "Testlai", "deobiet");
-            //Console.WriteLine(sSend);
-            //ss.WriteString(sSend);
-
-
-            ////Console.WriteLine(ss.ReadString());
-
-            //Console.ReadKey();
-            //pipeClient.Close();
+            catch (Exception e)
+            {
+                return;
+            }
         }
+        public static void SendRequestChangeSetting()
+        {
+            try
+            { 
+            StreamString ss = new StreamString(pipeClient);
+            String sSend = String.Format("{{'flag':{0}}}", (int)fText.ChangeSetting);
+            ss.WriteString(sSend);
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+        }
+        public static void SendRequestOpenGUIWithAdmin()
+        {
+            try
+            {
+                StreamString ss = new StreamString(pipeClient);
+                string sSend = string.Format("{{'flag':{0},'sPath':'{1}'}}", (int)fText.OpenGUIAdmin, System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.Replace("\\", "\\\\"));
+                ss.WriteString(sSend);
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+        }
+        public static string GetDataFromServer()
+        {
+            string sBuff = "";
+            StreamString ss = new StreamString(pipeClient);
+            if (pipeClient.CanRead)
+            {
+                sBuff = ss.ReadString();
+            }
+            return sBuff;
+        }
+        public static string GetListUserBlockFromServer(string sSend)
+        {
+            string sBuff = "";
+            StreamString ss = new StreamString(pipeClient);
+            //String sSend = String.Format("{{'flag':{0}}}", (int)fText.GetListBlock);
+            ss.WriteString(sSend);
+            if (pipeClient.CanRead)
+            {
+                sBuff = ss.ReadString();
+            }
+            return sBuff;
+        }
+
  
     }
     public class StreamString

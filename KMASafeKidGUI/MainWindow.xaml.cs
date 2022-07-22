@@ -42,13 +42,15 @@ namespace KMASafeGUI
             // chưa có pass thì close, mở lại lấy quyền admin để chạy
             if (Registry.LocalMachine.OpenSubKey("SOFTWARE\\KMASafe") == null)
             {
-                bool isAdmin = (new WindowsPrincipal(WindowsIdentity.GetCurrent())).IsInRole(WindowsBuiltInRole.Administrator);
+                bool isAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
                 if (!isAdmin)
                 {
-                    PipeClient.FlagSend = (int)PipeClient.fText.OpenGUIAdmin;
-                    PipeClient.signal.Set();
-                    signalWaitResult.WaitOne(1000);
+                    //PipeClient.FlagSend = (int)PipeClient.fText.OpenGUIAdmin;
+                    //PipeClient.signal.Set();
+                    //signalWaitResult.WaitOne(1000);
+                    PipeClient.SendRequestOpenGUIWithAdmin();
                     Close();
+                    Environment.Exit(0);
                 }
                 else
                 {
