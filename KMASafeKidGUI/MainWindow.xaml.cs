@@ -39,6 +39,7 @@ namespace KMASafeGUI
             InputLogin.Focus();
             textCreatePass.Visibility = Visibility.Hidden;
             PipeClient.OninitPipes();
+            System.Threading.Thread.Sleep(100);
             // chưa có pass thì close, mở lại lấy quyền admin để chạy
             if (Registry.LocalMachine.OpenSubKey("SOFTWARE\\KMASafe") == null)
             {
@@ -50,7 +51,7 @@ namespace KMASafeGUI
                     //signalWaitResult.WaitOne(1000);
                     PipeClient.SendRequestOpenGUIWithAdmin();
                     Close();
-                    Environment.Exit(0);
+                    //Environment.Exit(0);
                 }
                 else
                 {
