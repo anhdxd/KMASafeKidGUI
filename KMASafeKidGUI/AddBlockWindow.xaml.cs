@@ -67,7 +67,7 @@ namespace KMASafeGUI
         private void btn_OpenFolder_click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
-
+            openFileDlg.Filter = "Execute (*.exe)|*.exe";
             // Launch OpenFileDialog by calling ShowDialog method
             Nullable<bool> result = openFileDlg.ShowDialog();
             // Get the selected file name and display in a TextBox.
@@ -86,7 +86,7 @@ namespace KMASafeGUI
                 InputText = new Uri(InputText).Host;
 
             if (InputText.StartsWith("www."))
-                InputText.Substring("www.".Length);
+                InputText = InputText.Substring("www.".Length);
 
             JObject jSendToSV = new JObject();
             jSendToSV["flag"] = (int)PipeClient.fText.AddHostToDB;
