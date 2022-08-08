@@ -24,13 +24,16 @@ namespace KMASafeGUI
         public static EventWaitHandle signalWaitResult = new EventWaitHandle(false, EventResetMode.AutoReset);
         private List<DataBlock> WebBlock = new List<DataBlock>();
         private List<DataBlock> AppBlock = new List<DataBlock>();
+        private List<DataBlock> PathApp = new List<DataBlock>();
+        private ModifySQlite SQlite = new ModifySQlite();
         public AddBlockWindow()
         {
             InitializeComponent();
             tbInputBlockWeb.Focus();
-            SortedSet<string> ssUserApp =  AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
-            SortedSet<string> ssUserHost =  AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
-             // Chuy
+            SQlite.ConnectToDB(ModifySQlite.PATH_DB);
+            SortedSet<string> ssUserApp = SQlite.CGetAllBlockRule(ModifySQlite.ObjectType.APP);//AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
+            SortedSet<string> ssUserHost = SQlite.CGetAllBlockRule(ModifySQlite.ObjectType.WEB);//AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
+            // Chuy
             foreach (var item in ssUserHost)
             {
                 WebBlock.Add(new DataBlock { WebName = item});
@@ -42,7 +45,6 @@ namespace KMASafeGUI
 
             dgBlockShow.ItemsSource = WebBlock;
             dgAppShow.ItemsSource = AppBlock;
-            
         }
 
         private void Btn_Close_Click(object sender, RoutedEventArgs e)
@@ -79,13 +81,20 @@ namespace KMASafeGUI
 
         private void btn_AddWeb_Click(object sender, RoutedEventArgs e)
         {
+            string InputText = tbInputBlockWeb.Text;
+            if (Uri.IsWellFormedUriString(InputText, UriKind.Absolute))
+                InputText = new Uri(InputText).Host;
+
+            if (InputText.StartsWith("www."))
+                InputText.Substring("www.".Length);
+
             JObject jSendToSV = new JObject();
             jSendToSV["flag"] = (int)PipeClient.fText.AddHostToDB;
-            jSendToSV["sDomain"] = tbInputBlockWeb.Text;
+            jSendToSV["sDomain"] = InputText;
             PipeClient.SendRequestToServer(jSendToSV.ToString());
 
-            System.Threading.Thread.Sleep(100);
-            SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
+            System.Threading.Thread.Sleep(50);
+            SortedSet<string> ssUserHost = SQlite.CGetAllBlockRule(ModifySQlite.ObjectType.WEB);//AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
             WebBlock.Clear();
             foreach (var item in ssUserHost)
             {
@@ -104,8 +113,8 @@ namespace KMASafeGUI
 
             PipeClient.SendRequestToServer(jSendToSV.ToString());
 
-            System.Threading.Thread.Sleep(100);
-            SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
+            System.Threading.Thread.Sleep(50);
+            SortedSet<string> ssUserApp = SQlite.CGetAllBlockRule(ModifySQlite.ObjectType.APP);//AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
             AppBlock.Clear();
             foreach (var item in ssUserApp)
             {
@@ -124,8 +133,8 @@ namespace KMASafeGUI
             jSendToSV["sDomain"] = db.WebName;
             PipeClient.SendRequestToServer(jSendToSV.ToString());
 
-            System.Threading.Thread.Sleep(100);
-            SortedSet<string> ssUserHost = AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
+            System.Threading.Thread.Sleep(50);
+            SortedSet<string> ssUserHost = SQlite.CGetAllBlockRule(ModifySQlite.ObjectType.WEB);//AES.DecryptFileToSortedSet(".\\DBB\\UDB.dat");
             WebBlock.Clear();
             foreach (var item in ssUserHost)
             {
@@ -144,8 +153,8 @@ namespace KMASafeGUI
             jSendToSV["sPath"] = db.AppName;
             PipeClient.SendRequestToServer(jSendToSV.ToString());
 
-            System.Threading.Thread.Sleep(100);
-            SortedSet<string> ssUserApp = AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
+            System.Threading.Thread.Sleep(50);
+            SortedSet<string> ssUserApp = SQlite.CGetAllBlockRule(ModifySQlite.ObjectType.APP);//AES.DecryptFileToSortedSet(".\\DBB\\UADB.dat");
             AppBlock.Clear();
             foreach (var item in ssUserApp)
             {
@@ -159,6 +168,7 @@ namespace KMASafeGUI
     {
         public string WebName { get; set; }
         public string AppName { get; set; }
+        public string PathApp { get; set; }
     }
 
 }

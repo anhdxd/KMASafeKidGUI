@@ -66,6 +66,7 @@
       <DependentUpon>InstallAppWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\AppDiaryModel.cs" />
+    <Compile Include="ModifySQlite.cs" />
     <Compile Include="PipeClient.cs" />
     <Compile Include="ScreenApp.xaml.cs">
       <DependentUpon>ScreenApp.xaml</DependentUpon>

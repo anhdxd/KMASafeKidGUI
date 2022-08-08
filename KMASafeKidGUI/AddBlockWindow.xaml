@@ -19,7 +19,6 @@
         <local:DataBlock />
     </Window.DataContext>
     <Grid>
-
         <Border
             BorderBrush="Black"
             BorderThickness="1"
@@ -210,7 +209,14 @@
                             CanUserResize="False"
                             FontSize="14"
                             Foreground="Black"
-                            Header="App đã thêm" />
+                            Header="App đã thêm">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="ToolTip" Value="{Binding AppName}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

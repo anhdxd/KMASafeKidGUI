@@ -74,7 +74,7 @@ namespace KMASafeGUI
                         return;
                     }
 
-                    string PasswordEncrypt = AES.EncryptBase64ToString(InputLogin.Password);
+                    string PasswordEncrypt = AES.EncryptStringToBase64(InputLogin.Password);
                     Registry.LocalMachine.CreateSubKey("SOFTWARE\\KMASafe").SetValue("pwd", PasswordEncrypt);
                     bFlagNewPassword = false;
 

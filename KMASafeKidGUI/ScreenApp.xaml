@@ -337,7 +337,8 @@
             Height="19"
             Margin="675,421,138,110"
             Panel.ZIndex="1"
-            RenderTransformOrigin="2.973,1.789" Click="Game_Setting_Clicked">
+            Click="Game_Setting_Clicked"
+            RenderTransformOrigin="2.973,1.789">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -370,7 +371,8 @@
             Height="19"
             Margin="676,459,137,72"
             Panel.ZIndex="1"
-            RenderTransformOrigin="4.865,-0.474" Click="SafeSearch_Setting_Clicked">
+            Click="SafeSearch_Setting_Clicked"
+            RenderTransformOrigin="4.865,-0.474">
             <ToggleButton.Template>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
@@ -438,7 +440,7 @@
             FontWeight="Bold"
             Foreground="#FFE03E24"
             RenderTransformOrigin="0.472,-2.5"
-            Text="KMA Internet Safety " />
+            Text="VInternet Safety " />
         <TextBlock
             Margin="61,31,676,502"
             FontSize="12"

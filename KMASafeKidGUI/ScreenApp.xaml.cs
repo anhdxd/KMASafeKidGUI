@@ -54,7 +54,8 @@ namespace KMASafeGUI
             {
                 dStart = DateTime.FromFileTime((long)DataReader["TimeStart"]);
                 timeSpanUsed = TimeSpan.FromSeconds((long)DataReader["TimeUsed"]);
-                diarys.Add(new AppDiaryModel() { AppName = DataReader["AppName"].ToString(), TimeStart = dStart.ToString(), TimeUsed = timeSpanUsed.ToString() + "s" });
+                
+                diarys.Add(new AppDiaryModel() { AppName = AES.DecryptBase64ToString(DataReader["AppName"].ToString()), TimeStart = dStart.ToString(), TimeUsed = timeSpanUsed.ToString() + "s" });
             }
             dataView.ViewAppDiary = diarys;
             DataContext = dataView;

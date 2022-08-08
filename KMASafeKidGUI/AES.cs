@@ -152,9 +152,9 @@ namespace KMASafeGUI
             }
             return sortList;
         }
-
-        public static string EncryptBase64ToString(string sEncrypt)
+        public static string EncryptStringToBase64(string sEncrypt)
         {
+            string base64String;
             try
             {
                 using (Aes myAes = Aes.Create())
@@ -162,10 +162,9 @@ namespace KMASafeGUI
                     myAes.Key = Encoding.UTF8.GetBytes(sMyKey);
                     myAes.IV = Encoding.UTF8.GetBytes(sVectorIV);
 
-                    string original = sEncrypt;
                     // string original = System.Text.Encoding.UTF8.GetString(block);
-                    byte[] encrypted = EncryptStringToBytes_Aes(original, myAes.Key, myAes.IV);
-                    sEncrypt = Convert.ToBase64String(encrypted);
+                    byte[] encrypted = EncryptStringToBytes_Aes(sEncrypt, myAes.Key, myAes.IV);
+                    base64String = Convert.ToBase64String(encrypted);
                     //sEncrypt = System.Text.Encoding.UTF8.GetString(encrypted);
                 }
             }
@@ -173,10 +172,11 @@ namespace KMASafeGUI
             {
                 return null;
             }
-            return sEncrypt;
+            return base64String;
         }
         public static string DecryptBase64ToString(string sDecrypt)
         {
+            string original;
             try
             {
                 using (Aes myAes = Aes.Create())
@@ -187,8 +187,8 @@ namespace KMASafeGUI
                     byte[] encrypted = Convert.FromBase64String(sDecrypt);
 
                     // string original = System.Text.Encoding.UTF8.GetString(block);
-                    string original = DecryptStringFromBytes_Aes(encrypted, myAes.Key, myAes.IV);
-                    sDecrypt = original;
+                    original = DecryptStringFromBytes_Aes(encrypted, myAes.Key, myAes.IV);
+                    //sDecrypt = original;
                     //sEncrypt = System.Text.Encoding.UTF8.GetString(encrypted);
                 }
             }
@@ -196,9 +196,8 @@ namespace KMASafeGUI
             {
                 return null;
             }
-            return sDecrypt;
+            return original;
         }
-
         private static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
         {
             // Check arguments.
