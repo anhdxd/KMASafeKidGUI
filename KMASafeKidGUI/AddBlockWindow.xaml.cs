@@ -67,15 +67,14 @@ namespace KMASafeGUI
         private void btn_OpenFolder_click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
-            openFileDlg.Filter = "Execute (*.exe)|*.exe";
-            // Launch OpenFileDialog by calling ShowDialog method
+            openFileDlg.Filter = "Execute (*.exe)|*.exe|All files (*.*)|*.*";
+
             Nullable<bool> result = openFileDlg.ShowDialog();
-            // Get the selected file name and display in a TextBox.
-            // Load content of file in a TextBlock
+
             if (result == true)
             {
                 tbInputAppBlock.Text = openFileDlg.FileName;
-                //addAppTextBox.Text = System.IO.File.ReadAllText(openFileDlg.FileName);
+                tbInputAppBlock.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF000000");
             }
         }
 
@@ -85,7 +84,7 @@ namespace KMASafeGUI
             if (Uri.IsWellFormedUriString(InputText, UriKind.Absolute))
                 InputText = new Uri(InputText).Host;
 
-            if (InputText.StartsWith("www."))
+            if (InputText.StartsWith("www.")) 
                 InputText = InputText.Substring("www.".Length);
 
             JObject jSendToSV = new JObject();
@@ -162,6 +161,50 @@ namespace KMASafeGUI
             }
             dgAppShow.ItemsSource = AppBlock;
             dgAppShow.Items.Refresh();
+        }
+
+        private void Input_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (textBox.Name == "tbInputBlockWeb")
+            {
+                if (tbInputBlockWeb.Text == "")
+                {
+                    tbInputBlockWeb.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF8D8D8D");
+                    tbInputBlockWeb.Text = "Nhập Website ở đây";
+                }
+
+            }
+            if (textBox.Name == "tbInputAppBlock")
+            {
+                if (tbInputAppBlock.Text == "")
+                {
+                    tbInputAppBlock.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF8D8D8D");
+                    tbInputAppBlock.Text = "Nhập đường dẫn ứng dụng";
+                }
+            }
+        }
+
+        private void Input_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (textBox.Name == "tbInputBlockWeb")
+            {
+                if (tbInputBlockWeb.Foreground.ToString() != "#FF000000")
+                {
+                    tbInputBlockWeb.Text = "";
+                    tbInputBlockWeb.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF000000");
+                }
+            }
+
+            if (textBox.Name == "tbInputAppBlock")
+            {
+                if (tbInputAppBlock.Foreground.ToString() != "#FF000000")
+                {
+                    tbInputAppBlock.Text = "";
+                    tbInputAppBlock.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF000000");
+                }
+            }
         }
     }
     public class DataBlock

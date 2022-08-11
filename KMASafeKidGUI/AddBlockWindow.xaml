@@ -37,7 +37,10 @@
                     Padding="15,0,0,0"
                     VerticalContentAlignment="Center"
                     FontSize="14"
-                    Text="Nhập Web ở đây"
+                    Foreground="#FF8D8D8D"
+                    GotFocus="Input_GotFocus"
+                    LostFocus="Input_LostFocus"
+                    Text="Nhập Website ở đây"
                     TextWrapping="Wrap"
                     UseLayoutRounding="True">
                     <TextBox.Resources>
@@ -53,7 +56,10 @@
                         Padding="15,0,0,0"
                         VerticalContentAlignment="Center"
                         FontSize="14"
-                        Text="Chọn ứng dụng -&gt;"
+                        Foreground="#FF8D8D8D"
+                        GotFocus="Input_GotFocus"
+                        LostFocus="Input_LostFocus"
+                        Text="Nhập đường dẫn ứng dụng"
                         TextWrapping="Wrap"
                         UseLayoutRounding="True">
                         <TextBox.Resources>

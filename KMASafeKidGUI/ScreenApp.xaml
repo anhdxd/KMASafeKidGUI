@@ -440,7 +440,7 @@
             FontWeight="Bold"
             Foreground="#FFE03E24"
             RenderTransformOrigin="0.472,-2.5"
-            Text="VInternet Safety " />
+            Text="V Internet Safety " />
         <TextBlock
             Margin="61,31,676,502"
             FontSize="12"
