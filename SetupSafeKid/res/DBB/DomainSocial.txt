@@ -1,4 +1,6 @@
 facebook.com
+m.facebook.com
+d.facebook.com
 twitter.com
 instagram.com
 whatsapp.com

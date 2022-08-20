@@ -399,7 +399,10 @@
                 </ControlTemplate>
             </ToggleButton.Template>
         </ToggleButton>
-        <Button Margin="778,492,27,13" Click="Btn_AddBlock">
+        <Button
+            Margin="778,492,27,13"
+            Click="Btn_AddBlock"
+            ToolTip="Danh sách chặn">
             <iconPacks:PackIconBootstrapIcons
                 Width="25"
                 Height="25"
@@ -413,7 +416,8 @@
             Margin="716,492,89,13"
             VerticalAlignment="Center"
             Click="Btn_InstallApp"
-            RenderTransformOrigin="1.257,0.457">
+            RenderTransformOrigin="1.257,0.457"
+            ToolTip="Ứng dụng đã cài đặt gần đây">
             <iconPacks:BootstrapIcons
                 Width="25"
                 Height="25"
