@@ -28,6 +28,7 @@ namespace KMASafeGUI
         private ModifySQlite SQlite = new ModifySQlite();
         public AddBlockWindow()
         {
+            
             InitializeComponent();
             tbInputBlockWeb.Focus();
             SQlite.ConnectToDB(ModifySQlite.PATH_DB);
@@ -126,7 +127,7 @@ namespace KMASafeGUI
         private void DeleteWebClick(object sender, RoutedEventArgs e)
         {
             DataBlock db = dgBlockShow.CurrentItem as DataBlock;
-
+            if (db is null) return;
             JObject jSendToSV = new JObject();
             jSendToSV["flag"] = (int)PipeClient.fText.DeleteHostDB;
             jSendToSV["sDomain"] = db.WebName;
@@ -146,7 +147,7 @@ namespace KMASafeGUI
         private void DeleteAppClick(object sender, RoutedEventArgs e)
         {
             DataBlock db = dgAppShow.CurrentItem as DataBlock;
-
+            if (db is null) return;
             JObject jSendToSV = new JObject();
             jSendToSV["flag"] = (int)PipeClient.fText.DeleteAppDB;
             jSendToSV["sPath"] = db.AppName;

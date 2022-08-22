@@ -13,6 +13,10 @@ using KMASafeGUI.Model;
 using System.Data.SQLite;
 using IniParser;
 using IniParser.Model;
+using System.Threading;
+using System.Timers;
+using Timer = System.Timers.Timer;
+using System.Reflection.Emit;
 
 namespace KMASafeGUI
 {
@@ -28,13 +32,13 @@ namespace KMASafeGUI
         private List<AppDiaryModel> diarys = new List<AppDiaryModel>();
         private static SQLiteConnection sQLiteCon = new SQLiteConnection();
         private FileIniDataParser iniFile = new FileIniDataParser();
+
+        private Timer timeReload = new Timer();
         public ScreenApp()
         {
             InitializeComponent();
             dataView = new DataView();
 
-            //diarys.Add(new AppDiaryModel() { AppName = "asas", TimeStart = "John Doe", TimeUsed = "" });
-            //diarys.Add(new AppDiaryModel() { AppName = "asas", TimeStart = "Jane Doe", TimeUsed = "" });
             // Setting
             IniData data = iniFile.ReadFile(PATH_CONFIG_FILE);
             Toggle_Adult.IsChecked = data["BlockConfig"]["BlockAdult"].ToString() == "1" ? true : false;
@@ -42,23 +46,45 @@ namespace KMASafeGUI
             Toggle_Inprivate.IsChecked = data["BlockConfig"]["Inprivate"].ToString() == "1" ? true : false;
             Toggle_Game.IsChecked = data["BlockConfig"]["BlockGame"].ToString() == "1" ? true : false;
             Toggle_SafeSearch.IsChecked = data["BlockConfig"]["Safe"].ToString() == "1" ? true : false;
-            // SQlite
-            sQLiteCon.ConnectionString = "Data Source = " + @".\BlockDB.sqlite";
-            sQLiteCon.Open();
-            SQLiteCommand command = new SQLiteCommand(sQLiteCon);
-            command.CommandText = string.Format("SELECT * FROM tb_DiaryApp ");
-            SQLiteDataReader DataReader = command.ExecuteReader();
-            DateTime dStart = new DateTime();
-            TimeSpan timeSpanUsed = new TimeSpan();
-            while (DataReader.Read())
+
+            Thread threadReload = new Thread(() =>
             {
-                dStart = DateTime.FromFileTime((long)DataReader["TimeStart"]);
-                timeSpanUsed = TimeSpan.FromSeconds((long)DataReader["TimeUsed"]);
-                
-                diarys.Add(new AppDiaryModel() { AppName = AES.DecryptBase64ToString(DataReader["AppName"].ToString()), TimeStart = dStart.ToString(), TimeUsed = timeSpanUsed.ToString() + "s" });
-            }
-            dataView.ViewAppDiary = diarys;
-            DataContext = dataView;
+                while (true)
+                {
+                    sQLiteCon.ConnectionString = "Data Source = " + @".\BlockDB.sqlite";
+                    sQLiteCon.Open();
+                    SQLiteCommand command = new SQLiteCommand(sQLiteCon);
+                    command.CommandText = string.Format("SELECT * FROM tb_DiaryApp ");
+                    SQLiteDataReader DataReader = command.ExecuteReader();
+                    DateTime dStart = new DateTime();
+                    TimeSpan timeSpanUsed = new TimeSpan();
+                    diarys.Clear();
+                    while (DataReader.Read())
+                    {
+                        dStart = DateTime.FromFileTime((long)DataReader["TimeStart"]);
+                        timeSpanUsed = TimeSpan.FromSeconds((long)DataReader["TimeUsed"]);
+
+                        diarys.Add(new AppDiaryModel() { AppName = AES.DecryptBase64ToString(DataReader["AppName"].ToString()), TimeStart = dStart.ToString(), TimeUsed = timeSpanUsed.ToString() + "s" });
+                    }
+                    dataView.ViewAppDiary = diarys;
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        DataContext = dataView;
+                        DataGridDiary.Items.Refresh();
+                    }));
+                    sQLiteCon.Close();
+                    Thread.Sleep(30000);
+                }
+            });
+            threadReload.IsBackground = true;
+            threadReload.Start();
+            //timeReload.Elapsed += TimeFuncReload;
+            //timeReload.Interval = 10000;
+            //timeReload.AutoReset = true;
+            //timeReload.Enabled = true;
+            //timeReload.Start();
+
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -192,6 +218,12 @@ namespace KMASafeGUI
 
             this.Close();
             Environment.Exit(0);
+        }
+
+        private void TimeFuncReload(object sender, EventArgs e)
+        {
+            // SQlite
+ 
         }
 
 
