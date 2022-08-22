@@ -46,9 +46,6 @@ namespace KMASafeGUI
                 bool isAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
                 if (!isAdmin)
                 {
-                    //PipeClient.FlagSend = (int)PipeClient.fText.OpenGUIAdmin;
-                    //PipeClient.signal.Set();
-                    //signalWaitResult.WaitOne(1000);
                     PipeClient.SendRequestOpenGUIWithAdmin();
                     Close();
                     //Environment.Exit(0);
@@ -78,6 +75,7 @@ namespace KMASafeGUI
                     Registry.LocalMachine.CreateSubKey("SOFTWARE\\KMASafe").SetValue("pwd", PasswordEncrypt);
                     bFlagNewPassword = false;
 
+                    InputLogin.Clear();
                     textCreatePass.Text = "Oke, Nhập mật khẩu vừa tạo !";
                     textCreatePass.Foreground = Brushes.Red;
                     textCreatePass.Visibility = Visibility.Visible;
